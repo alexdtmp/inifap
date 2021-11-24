@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'inifap.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'inifap_gestion_articulos',
+        'USER': 'inifapadmin',
+        'PASSWORD': 'uaz_sw_3718692938192814',
+        'HOST': 'localhost',
+        'PORT': 3306
     }
 }
 
