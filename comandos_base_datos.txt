@@ -6,6 +6,10 @@ GRANT ALL PRIVILEGES ON inifap_gestion_articulos.* TO 'inifapadmin'@'%';
 
 FLUSH PRIVILEGES;
 
+Migras a la base MariaDB
+
+python manage.py migrate
+
 Abres el Shell 
 
 python manage.py shell
