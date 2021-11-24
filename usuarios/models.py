@@ -1,8 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields import CharField, EmailField
+from django.core.validators import validate_email
 
-# Create your models here.
 
+class Usuario(User):
+
+    nombre = CharField(blank=False, max_length=100)
+    primer_apellido = CharField(blank=False, max_length=100)
+    segundo_apellido = CharField(max_length=100, blank=True)
+    correo_electronico = EmailField(blank=False,
+                                    unique=True, validators=[validate_email, ])
+
+    def __str__(self):
+        return self.first_name+' '+self.last_name
+
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
 
 class Postulante(User):
     segundo_apellido = models.CharField('Segundo apellido', max_length=50)
