@@ -27,20 +27,25 @@ class UsuarioNuevo(SuccessMessageMixin, CreateView):
         return reverse('usuarios:lista')
 
 def login(request):
+
     if request.method == 'POST':
+
         form = AuthenticationForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         usuario = authenticate(username=username, password=password)
-    
+
         if usuario is not None:
+
             if usuario.is_active:
+
                 auth_login(request, usuario)
                 return redirect('usuarios:lista')
         else:
-            messages.error(request,'El usuario o la contraseña no son correctos')
+
+            messages.error(request, 'El usuario o la contraseña no son correctos')
             return redirect('usuarios:login')
-    
     else:
+
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
