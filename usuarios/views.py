@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.models import Group
 from .models import Usuario
 from .forms import UsuarioForm
 
@@ -20,8 +21,21 @@ class UsuarioNuevo(SuccessMessageMixin, CreateView):
 
     model = Usuario
     form_class = UsuarioForm
+    extra_context = {'lista_grupos': Group.objects.all()}
     success_message = "Usuario creado correctamente"
 
+    def form_valid(self, form):
+
+        user = form.save(commit=True)
+        user.groups.clear()
+        for item in self.request.POST:
+
+            if self.request.POST[item] == 'on':
+
+                user.groups.add(Group.objects.get(id=int(item)))
+        user.save()
+        return super().form_valid(form)
+        
     def get_success_url(self):
 
         return reverse('usuarios:lista')

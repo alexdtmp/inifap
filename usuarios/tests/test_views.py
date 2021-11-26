@@ -1,11 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Usuario
+from usuarios.models import Usuario
 
 
 # Create your tests here.
 class TestViews(TestCase):
 
+# Test crear usuario y lista usuario
     def setUp(self):
 
         self.data_usuario = {
@@ -138,3 +139,19 @@ class TestViews(TestCase):
 
         response = self.client.post('/usuarios/nuevo', data=self.data_usuario)
         self.assertEqual(response.url, '/usuarios/lista')
+
+#Login
+    def test_url_usuarios_login(self):
+
+        response = self.client.get('/usuarios/login')
+        self.assertEqual(response.status_code, 200)
+
+    def test_nombre_url_usuarios_login(self):
+
+        response = self.client.get(reverse('usuarios:login'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_correcto_usuarios_login(self):
+
+        response = self.client.get('/usuarios/login')
+        self.assertTemplateUsed(response, 'login.html')

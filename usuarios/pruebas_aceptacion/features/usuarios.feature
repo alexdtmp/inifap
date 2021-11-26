@@ -87,3 +87,13 @@ Característica: Crear usuario
         Y capturo "juan47887878" en el password
         Cuando presiono el botón "Guardar"
         Entonces puede ver al usuario "admin_juan" en la lista de usuarios y el mensaje "Usuario creado correctamente"
+
+Característica: Iniciar Sesión
+    Como usuario del sistema quiero iniciar sesión para realizar mis actividades.
+
+    Escenario: Iniciar sesión correctamente
+        Dado que cuento con un usuario valido e ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/login" 
+        Y capturo "admin" en el nombre de usuario
+        Y capturo "admin123" en contraseña
+        Cuando presiono el botón "Ingresar"
+        Entonces puedo ver la página de inicio del sistema
