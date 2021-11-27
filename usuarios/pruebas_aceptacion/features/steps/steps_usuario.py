@@ -95,3 +95,28 @@ def step_impl(context, titulo):
     respuesta = context.driver.find_element_by_tag_name('h1')
     assert titulo == respuesta.text, f"esperado es {titulo} y obtenido es {respuesta}"
     time.sleep(2)
+
+#Iniciar sesión
+@given(u'capturo "{username}" en el nombre de usuario')
+def step_impl(context, username):
+
+    context.driver.find_element_by_id("id_username").send_keys(username)
+    time.sleep(2)
+
+@given(u'capturo "{password}" en contraseña')
+def step_impl(context, password):
+
+    context.driver.find_element_by_id("id_password").send_keys(password)
+    time.sleep(2)
+
+@then(u'puedo ver la página de "{pagina}"')
+def step_impl(context, pagina):
+
+    context.test.assertIn(pagina, context.driver.page_source)
+    time.sleep(2)
+
+@then(u'puedo ver la alerta "{alerta}" en la página')
+def step_impl(context, alerta):
+
+    context.test.assertIn(alerta, context.driver.page_source)
+    time.sleep(2)
