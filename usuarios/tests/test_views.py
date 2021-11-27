@@ -45,7 +45,7 @@ class TestViews(TestCase):
 
     def test_nombre_url_usuarios_crear(self):
 
-        response = self.client.get(reverse('usuarios: nuevo'))
+        response = self.client.get(reverse('usuarios:nuevo'))
         self.assertEqual(response.status_code, 200)
 
     def test_template_correcto_nuevo_usuario(self):

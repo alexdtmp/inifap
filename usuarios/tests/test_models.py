@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .models import Usuario
+from usuarios.models import Usuario
 
 
 # Create your tests here.
@@ -64,7 +64,7 @@ class TestModels(TestCase):
             usuario2.full_clean()
         except ValidationError as ex:
             msg = str(ex.message_dict['username'][0])
-            self.assertEqual(msg, 'A user with that username already exists.')
+            self.assertEqual(msg, 'Ya existe un usuario con ese nombre.')
 
     def test_correo_es_requerido(self):
 
@@ -113,7 +113,7 @@ class TestModels(TestCase):
         except ValidationError as ex:
             msg = str(ex.message_dict['correo_electronico'][0])
             self.assertEqual(msg,
-                             'Usuario with this Correo electronico already exists.')
+                             'Ya existe un/a Usuario con este/a Correo electronico.')
 
     def test_password_es_requerido(self):
 

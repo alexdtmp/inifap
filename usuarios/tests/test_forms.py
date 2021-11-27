@@ -1,6 +1,6 @@
 from django.test import TestCase
 from usuarios.forms import UsuarioForm
-from .models import Usuario
+from usuarios.models import Usuario
 
 
 class TestFormUsuario(TestCase):
@@ -51,7 +51,7 @@ class TestFormUsuario(TestCase):
         self.data_usuario['correo_electronico'] = ''
         form = UsuarioForm(self.data_usuario)
         self.assertEqual(form.errors['correo_electronico'],
-                         ['This field is required.'])
+                         ['Este campo es obligatorio.'])
 
     def test_usuario_form_password_es_requerido(self):
 
