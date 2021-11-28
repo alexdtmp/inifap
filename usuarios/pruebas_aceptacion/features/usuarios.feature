@@ -104,3 +104,12 @@ Característica: Iniciar Sesión
         Y capturo "adminfalso" en contraseña
         Cuando presiono el botón "Ingresar"
         Entonces puedo ver la alerta "El usuario o la contraseña no son correctos" en la página
+
+Característica: Eliminar usuario
+    Como usuario administrador quiero eliminar un usuario.
+
+    Escenario: Eliminado correcto
+    Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+    Y presiono el botón de eliminar correspondiente a un registro de la lista
+    Y presiono el botón "Sí, estoy seguro"
+    Entonces puedo ver la alerta "Usuario eliminado exitosamente" en la página

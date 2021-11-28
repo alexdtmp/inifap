@@ -3,7 +3,7 @@ from selenium import webdriver
 from unittest import TestCase
 import time
 
-
+#Nuevo usuario
 @given(u'que ingreso al sistema con la dirección "{url}"')
 def step_impl(context, url):
 
@@ -83,9 +83,7 @@ def step_impl(context, usuario, mensaje):
 @then(u'puede ver el mensaje "{mensaje}" en la página')
 def step_impl(context, mensaje):
 
-    respuesta = context.driver.find_element_by_tag_name('li')
-    assert mensaje == respuesta.text, f"esperado es {mensaje} y"
-    +" obtenido es {respuesta}"
+    context.test.assertIn(mensaje, context.driver.page_source)
     time.sleep(2)
 
 
@@ -119,4 +117,11 @@ def step_impl(context, pagina):
 def step_impl(context, alerta):
 
     context.test.assertIn(alerta, context.driver.page_source)
+    time.sleep(2)
+
+#Eliminar Usuario
+@given(u'presiono el botón de eliminar correspondiente a un registro de la lista')
+def step_impl(context):
+
+    context.drive.find_element_by_xpath('//*[@id="datatablesSimple"]/tbody/tr[1]/td[7]/button')
     time.sleep(2)
