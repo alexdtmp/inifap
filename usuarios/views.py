@@ -1,9 +1,10 @@
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.urls.base import reverse
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import Group
@@ -63,3 +64,13 @@ def login(request):
 
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
+class UsuarioEliminar(DeleteView):
+
+    model = Usuario
+    success_url=reverse_lazy('usuarios:lista')
+
+    def delete(self, request, *args, **kwargs):
+
+        messages.success(self.request, '¡Usuario eliminado exitosamente!')
+        return super(UsuarioEliminar, self).delete(request, *args, **kwargs)

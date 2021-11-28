@@ -155,3 +155,12 @@ class TestViews(TestCase):
 
         response = self.client.get('/usuarios/login')
         self.assertTemplateUsed(response, 'login.html')
+        
+#Eliminar
+    def test_usuario_eliminar_correctamente(self):
+        self.client.post('/usuarios/nuevo', data=self.data_usuario)
+        user = Usuario.objects.get(username=self.data_usuario['username'])
+        self.client.post('/usuarios/eliminar/'+str(user.id))
+        self.assertEqual(Usuario.objects.all().count(), 0)
+
+#Modificar

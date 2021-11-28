@@ -112,4 +112,4 @@ Característica: Eliminar usuario
     Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
     Y presiono el botón de eliminar correspondiente a un registro de la lista
     Y presiono el botón "Sí, estoy seguro"
-    Entonces puedo ver la alerta "Usuario eliminado exitosamente" en la página
+    Entonces puedo ver la alerta "¡Usuario eliminado exitosamente!" en la página
