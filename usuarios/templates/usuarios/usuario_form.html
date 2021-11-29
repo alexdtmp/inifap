@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block titulo %}
-Nuevo usuario
+{{titulo}}
 {% endblock titulo %}
 
 {% block css %}
@@ -14,7 +14,7 @@ Nuevo usuario
     <div class="container">
         <div class="row">
             <div class="col-9">
-                <h1>Nuevo usuario</h1>
+                <h1>{{titulo}}</h1>
             </div>
         </div>
     </div>
@@ -25,25 +25,28 @@ Nuevo usuario
                 {% csrf_token %}
                 {{ form.as_p }}
                 <h4>Permisos</h4>
-                
-                {% if lista_grupos_asignados %}
-
-                {% else %}
-                    {% for grupo in lista_grupos %}
-                        <div class="row">
-                            <div class="col-3">
-                                <h6>{{grupo.name}}</h6>
-                            </div>
-                            <div class="col">
-                                <label class="switch" >
-                                    <input type="checkbox" name='{{grupo.id}}'>
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
+                {% for grupo in lista_grupos %}
+                    <div class="row">
+                        <div class="col-3">
+                            <h6>{{grupo.name}}</h6>
                         </div>
-                        <br>
+                        <div class="col">
+                            <label class="switch" >  
+                                {% if grupos_usuario %}
+                                    {% if grupo in grupos_usuario %}
+                                        <input type="checkbox" name='{{grupo.id}}' checked>
+                                    {% else %}
+                                        <input type="checkbox" name='{{grupo.id}}'>
+                                    {% endif %}
+                                {% else %}
+                                    <input type="checkbox" name='{{grupo.id}}'>
+                                {% endif %}
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <br>
                     {% endfor %}
-                {% endif %}
                 <button type="submit" class="btn btn-primary" id="id_guardar">Guardar</button>
                 <a class="btn btn-secondary" href="{% url 'usuarios:lista' %}">Cancelar</a>
             </form>
