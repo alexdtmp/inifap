@@ -1,26 +1,30 @@
 from django.http import request
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView
+from django.shortcuts import get_object_or_404
 from django.urls.base import reverse
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Group
 from .models import Usuario
 from .forms import UsuarioForm
 
 
 # Create your views here.
-class UsuarioList(ListView):
+class UsuarioList(PermissionRequiredMixin, ListView):
 
+    permission_required = 'usuarios.view_user'
     model = Usuario
 
 
-class UsuarioNuevo(SuccessMessageMixin, CreateView):
+class UsuarioNuevo(PermissionRequiredMixin, CreateView):
 
+    permission_required = 'usuarios.add_user'
     model = Usuario
     form_class = UsuarioForm
     extra_context = {'lista_grupos': Group.objects.all(),
@@ -67,8 +71,9 @@ def login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-class UsuarioEliminar(DeleteView):
+class UsuarioEliminar(PermissionRequiredMixin, DeleteView):
 
+    permission_required = 'usuarios.delete_user'
     model = Usuario
     success_url=reverse_lazy('usuarios:lista')
 
@@ -77,6 +82,7 @@ class UsuarioEliminar(DeleteView):
         messages.success(self.request, '¡Usuario eliminado exitosamente!')
         return super(UsuarioEliminar, self).delete(request, *args, **kwargs)
 
+@permission_required('usuarios.change_user', raise_exception=True)
 def usuario_modificar(request, pk):
 
     usuario = Usuario.objects.get(id=pk)
@@ -101,3 +107,11 @@ def usuario_modificar(request, pk):
                'lista_grupos': Group.objects.all(),
                'titulo': 'Modificar usuario'}
     return render(request, 'usuarios/usuario_form.html', context)
+
+@permission_required('usuarios.view_user', raise_exception=True)
+def usuario_detalle(request,pk):
+
+    usuario = get_object_or_404(Usuario,id=pk)
+    grupos = usuario.groups.all()
+    return render(request, 'usuarios/usuario_detail.html',{'permisos': grupos,
+                                                           'usuario': usuario})

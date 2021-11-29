@@ -328,3 +328,40 @@ class TestViews(TestCase):
         response = self.client.post('/usuarios/modificar/'+str(user.id),
                                     data=self.data_usuario)
         self.assertEqual(response.url, '/usuarios/lista')
+
+#Detalle
+    def test_url_usuarios_detalle(self):
+    
+        self.client.post('/usuarios/nuevo', data=self.data_usuario)
+        user = Usuario.objects.get(username=self.data_usuario['username'])
+        response = self.client.get('/usuarios/detalle/'+str(user.id))
+        self.assertEqual(response.status_code, 200)
+
+    def test_nombre_url_usuarios_detalle(self):
+
+        self.client.post('/usuarios/nuevo', data=self.data_usuario)
+        user = Usuario.objects.get(username=self.data_usuario['username'])
+        response = self.client.get(reverse('usuarios:detalle', 
+                                           args=[str(user.id)]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_correcto_usuario_detalle(self):
+
+        self.client.post('/usuarios/nuevo', data=self.data_usuario)
+        user = Usuario.objects.get(username=self.data_usuario['username'])
+        response = self.client.get('/usuarios/detalle/'+str(user.id))
+        self.assertTemplateUsed(response, 'usuarios/usuario_detail.html')
+
+    def test_envio_datos_usuario_url_usuarios_detalle(self):
+
+        self.client.post('/usuarios/nuevo', data=self.data_usuario)
+        user = Usuario.objects.get(username=self.data_usuario['username'])
+        response = self.client.get('/usuarios/detalle/'+str(user.id))
+        self.assertIn('usuario', response.context)
+
+    def test_envio_datos_usuario_url_usuarios_detalle(self):
+        
+        self.client.post('/usuarios/nuevo', data=self.data_usuario)
+        user = Usuario.objects.get(username=self.data_usuario['username'])
+        response = self.client.get('/usuarios/detalle/'+str(user.id))
+        self.assertIn('permisos', response.context)
