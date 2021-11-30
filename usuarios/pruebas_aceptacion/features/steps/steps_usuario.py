@@ -6,9 +6,18 @@ import time
 #Nuevo usuario
 @given(u'que ingreso al sistema con la dirección "{url}"')
 def step_impl(context, url):
-
     context.driver = webdriver.Chrome()
+    context.driver.maximize_window()
     context.test = TestCase()
+    url_login = 'http://192.168.33.10:8000/usuarios/login'
+    context.driver.get(url_login)
+    time.sleep(2)
+    context.driver.find_element_by_id("id_username").send_keys('admin')
+    time.sleep(2)
+    context.driver.find_element_by_id("id_password").send_keys('admin123')
+    time.sleep(2)
+    context.driver.find_elements_by_xpath("//*[contains(text(), 'Ingresar')]")[0].click()
+    time.sleep(2)
     context.driver.get(url)
     time.sleep(2)
 
@@ -23,6 +32,7 @@ def step_impl(context, texto_boton):
 @given(u'capturo "{nombre}" en el nombre')
 def step_impl(context, nombre):
 
+    context.driver.find_element_by_id("id_nombre").clear()
     context.driver.find_element_by_id("id_nombre").send_keys(nombre)
     time.sleep(2)
 
@@ -30,6 +40,7 @@ def step_impl(context, nombre):
 @given(u'capturo "{apellido}" en el apellido')
 def step_impl(context, apellido):
 
+    context.driver.find_element_by_id("id_apellido").clear()
     context.driver.find_element_by_id("id_apellido").send_keys(apellido)
     time.sleep(2)
 
@@ -37,6 +48,7 @@ def step_impl(context, apellido):
 @given(u'capturo "{apellido}" en el segundo apellido')
 def step_impl(context, apellido):
 
+    context.driver.find_element_by_id("id_segundo_apellido").clear()
     context.driver.find_element_by_id("id_segundo_apellido").send_keys(apellido)
     time.sleep(2)
 
@@ -44,6 +56,7 @@ def step_impl(context, apellido):
 @given(u'capturo "{username}" en el username')
 def step_impl(context, username):
 
+    context.driver.find_element_by_id("id_username").clear()
     context.driver.find_element_by_id("id_username").send_keys(username)
     time.sleep(2)
 
@@ -51,6 +64,7 @@ def step_impl(context, username):
 @given(u'capturo "{email}" en correo')
 def step_impl(context, email):
 
+    context.driver.find_element_by_id("id_email").clear()
     context.driver.find_element_by_id("id_email").send_keys(email)
     time.sleep(2)
 
@@ -58,27 +72,24 @@ def step_impl(context, email):
 @given(u'capturo "{password}" en el password')
 def step_impl(context, password):
 
+    context.driver.find_element_by_id("id_password").clear()
     context.driver.find_element_by_id("id_password").send_keys(password)
     time.sleep(2)
 
 
-@when(u'presiono el botón "Guardar"')
-def step_impl(context):
+@when(u'presiono el botón "{boton}"')
+def step_impl(context, boton):
 
-    context.driver.find_element_by_id("id_guardar").click()
+    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
+    context.driver.find_elements_by_xpath("//*[contains(text(), '"+boton+"')]")[0].click()
     time.sleep(2)
 
-
-@then(u'puede ver al usuario "{usuario}" en la lista de usuarios'
-      + ' y el mensaje "{mensaje}"')
-def step_impl(context, usuario, mensaje):
+@then(u'puede ver al usuario "{usuario}" en la lista de usuarios')
+def step_impl(context, usuario):
 
     context.test.assertIn(usuario, context.driver.page_source)
-    respuesta = context.driver.find_element_by_class_name('alert-success')
-    assert mensaje == respuesta.text, f"esperado es {mensaje} y"
-    +" obtenido es {respuesta}"
     time.sleep(2)
-
 
 @then(u'puede ver el mensaje "{mensaje}" en la página')
 def step_impl(context, mensaje):
@@ -86,12 +97,11 @@ def step_impl(context, mensaje):
     context.test.assertIn(mensaje, context.driver.page_source)
     time.sleep(2)
 
-
 @then(u'sigo en la misma página con el título "{titulo}"')
 def step_impl(context, titulo):
 
-    respuesta = context.driver.find_element_by_tag_name('h1')
-    assert titulo == respuesta.text, f"esperado es {titulo} y obtenido es {respuesta}"
+    respuesta = context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div[1]/div/div/h1')
+    assert titulo == respuesta.text, f"esperado es {titulo} y obtenido es {respuesta.text}"
     time.sleep(2)
 
 #Iniciar sesión
@@ -123,5 +133,49 @@ def step_impl(context, alerta):
 @given(u'presiono el botón de eliminar correspondiente a un registro de la lista')
 def step_impl(context):
 
-    context.drive.find_element_by_xpath('//*[@id="datatablesSimple"]/tbody/tr[1]/td[7]/button')
+    context.driver.find_element_by_xpath('//*[@id="datatablesSimple"]/tbody/tr[1]/td[7]/button').click()
+    time.sleep(2)
+
+@given(u'presiono el botón "Sí, estoy seguro"')
+def step_impl(context):
+
+    context.driver.find_element_by_xpath('/html/body/div[2]/div/div[6]/button[1]').click()
+    time.sleep(2)
+
+@given(u'presiono el botón "Cancelar"')
+def step_impl(context):
+
+    context.driver.find_element_by_xpath('/html/body/div[2]/div/div[6]/button[3]').click()
+    time.sleep(2)
+
+#Modificar
+@given(u'presiono el botón de modificar correspondiente a un registro de la lista')
+def step_impl(context):
+
+    context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[2]').click()
+    time.sleep(2)
+
+@given(u'capturo "" en el nombre')
+def step_impl(context):
+
+    context.driver.find_element_by_id("id_nombre").clear()
+    time.sleep(2)
+
+@given(u'capturo "" en el apellido')
+def step_impl(context):
+
+    context.driver.find_element_by_id("id_apellido").clear()
+    time.sleep(2)
+
+@given(u'capturo "" en el username')
+def step_impl(context):
+
+    context.driver.find_element_by_id("id_username").clear()
+    time.sleep(2)
+
+#Detalle
+@when(u'presiono el botón de ver correspondiente a un registro de la lista')
+def step_impl(context):
+
+    context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[1]').click()
     time.sleep(2)

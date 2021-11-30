@@ -11,7 +11,7 @@ Característica: Crear usuario
         Y capturo "admin_juan@gmail.com" en correo
         Y capturo "juanR123" en el password
         Cuando presiono el botón "Guardar"
-        Entonces puede ver al usuario "admin_juan" en la lista de usuarios y el mensaje "Usuario creado correctamente"
+        Entonces puede ver al usuario "admin_juan" en la lista de usuarios
 
     Escenario: Crear usuario con nombre de usuario existente
         Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
@@ -86,30 +86,4 @@ Característica: Crear usuario
         Y capturo "admin_juan_pacheco@gmail.com" en correo
         Y capturo "juan47887878" en el password
         Cuando presiono el botón "Guardar"
-        Entonces puede ver al usuario "admin_juan" en la lista de usuarios y el mensaje "Usuario creado correctamente"
-
-Característica: Iniciar Sesión
-    Como usuario del sistema quiero iniciar sesión para realizar mis actividades.
-
-    Escenario: Iniciar sesión correctamente
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/login" 
-        Y capturo "admin" en el nombre de usuario
-        Y capturo "admin123" en contraseña
-        Cuando presiono el botón "Ingresar"
-        Entonces puedo ver la página de "Lista de usuarios"
-    
-    Escenario: Iniciar sesión incorrecto
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/login" 
-        Y capturo "admin_falso" en el nombre de usuario
-        Y capturo "adminfalso" en contraseña
-        Cuando presiono el botón "Ingresar"
-        Entonces puedo ver la alerta "El usuario o la contraseña no son correctos" en la página
-
-Característica: Eliminar usuario
-    Como usuario administrador quiero eliminar un usuario.
-
-    Escenario: Eliminado correcto
-    Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
-    Y presiono el botón de eliminar correspondiente a un registro de la lista
-    Y presiono el botón "Sí, estoy seguro"
-    Entonces puedo ver la alerta "¡Usuario eliminado exitosamente!" en la página
+        Entonces puede ver al usuario "admin_juan" en la lista de usuarios
