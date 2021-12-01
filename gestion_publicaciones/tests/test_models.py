@@ -3,7 +3,7 @@ from django.urls import reverse
 from publicaciones.models import Publicacion
 from usuarios.models import Usuario
 from catalogos.models import Estatus
-from gestion_publicaciones.models import Revision
+from gestion_publicaciones.models import Revision, Estado
 
 # Create your tests here.
 class TestViews(TestCase):
@@ -12,6 +12,8 @@ class TestViews(TestCase):
 
         estatus_nuevo = Estatus.objects.create(descripcion='en espera')
         estatus_nuevo.save()
+        estado_nuevo = Estado.objects.create(descripcion='En espera')
+        estado_nuevo.save()
         usuario = Usuario.objects.create(nombre='Germán',
                                          primer_apellido='González',
                                          segundo_apellido='Rodarte',
@@ -25,7 +27,8 @@ class TestViews(TestCase):
                                                  titulo="Prueba")
         revision = Revision.objects.create(publicacion=publicacion_nueva,
                                            usuario_revisor=usuario,
-                                           archivo='archivo_prueba.txt')
+                                           archivo='archivo_prueba.txt',
+                                           estado=estado_nuevo)
         self.assertEquals(revision,
                           Revision.objects.filter(id=revision.id).first())
 
@@ -33,6 +36,8 @@ class TestViews(TestCase):
 
         estatus_nuevo = Estatus.objects.create(descripcion='en espera')
         estatus_nuevo.save()
+        estado_nuevo = Estado.objects.create(descripcion='En espera')
+        estado_nuevo.save()
         usuario = Usuario.objects.create(nombre='Germán',
                                          primer_apellido='González',
                                          segundo_apellido='Rodarte',
@@ -46,7 +51,8 @@ class TestViews(TestCase):
                                                  titulo="Prueba")
         revision = Revision.objects.create(publicacion=publicacion_nueva,
                                            usuario_revisor=None,
-                                           archivo='archivo_prueba.txt')
+                                           archivo='archivo_prueba.txt',
+                                           estado=estado_nuevo)
         self.assertEquals(revision,
                           Revision.objects.filter(id=revision.id).first())
     
@@ -54,6 +60,8 @@ class TestViews(TestCase):
     
         estatus_nuevo = Estatus.objects.create(descripcion='en espera')
         estatus_nuevo.save()
+        estado_nuevo = Estado.objects.create(descripcion='En espera')
+        estado_nuevo.save()
         usuario = Usuario.objects.create(nombre='Germán',
                                          primer_apellido='González',
                                          segundo_apellido='Rodarte',
@@ -67,6 +75,7 @@ class TestViews(TestCase):
                                                  titulo="Prueba")
         revision = Revision.objects.create(publicacion=publicacion_nueva,
                                            usuario_revisor=None,
-                                           archivo=None)
+                                           archivo=None,
+                                           estado=estado_nuevo)
         self.assertEquals(revision,
                           Revision.objects.filter(id=revision.id).first())
