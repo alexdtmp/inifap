@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'usuarios',
     'catalogos',
     'publicaciones',
+    'gestion_publicaciones'
 ]
 
 MIDDLEWARE = [
