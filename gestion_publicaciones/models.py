@@ -1,5 +1,7 @@
 from django.db import models
 
+from catalogos.models import Estatus
+
 # Create your models here.
 class Revision(models.Model):
     publicacion = models.ForeignKey("publicaciones.Publicacion",
@@ -12,3 +14,13 @@ class Revision(models.Model):
                                     null=True)
     archivo = models.FileField(upload_to='revisiones/', max_length=100,
                                null=True)
+    estado = models.ForeignKey("gestion_publicaciones.Estado",
+                               verbose_name="Estado",
+                               on_delete=models.CASCADE,
+                               null=False)
+
+class Estado(models.Model):
+    descripcion = models.CharField("Estado de la solicitud", max_length=100)
+
+    def __str__(self):
+        return self.descripcion
