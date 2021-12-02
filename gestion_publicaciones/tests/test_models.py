@@ -10,7 +10,7 @@ class TestViews(TestCase):
 
     def test_insercion_revision_bd(self):
 
-        estatus_nuevo = Estatus.objects.create(descripcion='en espera')
+        estatus_nuevo = Estatus.objects.create(descripcion='En espera')
         estatus_nuevo.save()
         estado_nuevo = Estado.objects.create(descripcion='En espera')
         estado_nuevo.save()

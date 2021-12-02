@@ -13,7 +13,7 @@ class Usuario(User):
                                     unique=True, validators=[validate_email, ])
 
     def __str__(self):
-        return self.first_name+' '+self.last_name
+        return self.nombre+' '+self.primer_apellido
 
     class Meta:
         verbose_name = 'Usuario'
