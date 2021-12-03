@@ -10,4 +10,6 @@ urlpatterns = [
          name='detalle_publicacion'),
     path('asignar-revisores/<int:pk>', views.mostrar_lista_revisores,
          name='asignar_revisores'),
+    path('agregar-revisores/', views.asignar_revisores,
+         name='agregar_revisores'),
 ]

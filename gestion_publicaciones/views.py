@@ -1,9 +1,7 @@
-from django.contrib.auth.models import Group
-from django.shortcuts import render
 from django.views.generic import ListView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import Group
-from gestion_publicaciones.models import Revision
+from gestion_publicaciones.models import Estado, Revision
 from publicaciones.models import Publicacion
 from usuarios.models import Usuario
 
@@ -46,7 +44,20 @@ def es_revisor(user):
 
 def asignar_revisores(request):
 
+    publicacion_seleccionada = get_object_or_404(Publicacion,
+                                    id=int(request.POST['publicacion']))
     if request.method=='POST':
-        
-        
-    
+
+        contador = 0
+        for item in request.POST:
+
+            if request.POST[item]=='Selected' and contador<4:
+
+                revisor = Usuario.objects.get(id=int(item))
+                Revision.objects.create(publicacion=publicacion_seleccionada,
+                                        usuario_revisor=revisor,
+                                        estado=Estado.objects.get(id=1)).save()
+                contador = contador + 1
+
+    return redirect('gestion_publicaciones:detalle_publicacion',
+                    pk=publicacion_seleccionada.id)
