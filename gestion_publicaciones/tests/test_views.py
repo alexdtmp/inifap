@@ -87,9 +87,49 @@ class TestViews(TestCase):
         self.assertIn('publicacion', response.context)
     
     def test_envio_datos_url_publicacion_revisiones_detalle(self):
-    
+
         self.crear_publicacion_revision()
         publicacion = Publicacion.objects.all().first()
         response = self.client.get('/gestion-publicaciones/detalle-publicacion/'+
                                    str(publicacion.id))
         self.assertIn('revisiones', response.context)
+
+    def test_url_lista_revisores(self):
+
+        self.crear_publicacion()
+        publicacion = Publicacion.objects.all().first()
+        response = self.client.get('/gestion-publicaciones/asignar-revisores/'+
+                                   str(publicacion.id))
+        self.assertEqual(response.status_code, 200)
+
+    def test_nombre_url_lista_revisores(self):
+
+        self.crear_publicacion()
+        publicacion = Publicacion.objects.all().first()
+        response = self.client.get(reverse('gestion_publicaciones:asignar_revisores',
+                                           args=[str(publicacion.id)]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_correcto_lista_revisores(self):
+
+        self.crear_publicacion()
+        publicacion = Publicacion.objects.all().first()
+        response = self.client.get('/gestion-publicaciones/asignar-revisores/'+
+                                   str(publicacion.id))
+        self.assertTemplateUsed(response, 'revisores_list.html')
+
+    def test_envio_datos_url_lista_revisores_publicacion(self):
+
+        self.crear_publicacion()
+        publicacion = Publicacion.objects.all().first()
+        response = self.client.get('/gestion-publicaciones/asignar-revisores/'+
+                                   str(publicacion.id))
+        self.assertIn('publicacion', response.context)
+
+    def test_envio_datos_url_lista_revisores_revisores(self):
+
+        self.crear_publicacion()
+        publicacion = Publicacion.objects.all().first()
+        response = self.client.get('/gestion-publicaciones/asignar-revisores/'+
+                                   str(publicacion.id))
+        self.assertIn('revisores', response.context)

@@ -8,4 +8,6 @@ urlpatterns = [
          name='lista_publicaciones'),
     path('detalle-publicacion/<int:pk>', views.detalle_publicacion,
          name='detalle_publicacion'),
+    path('asignar-revisores/<int:pk>', views.mostrar_lista_revisores,
+         name='asignar_revisores'),
 ]

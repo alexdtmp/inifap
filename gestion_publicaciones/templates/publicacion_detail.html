@@ -88,7 +88,7 @@ Detalle de Publicación
                 </table>
             {% else %}
                 <p><b>Esta publicación no tiene revisores asignados. </b></p>
-                <a class="btn btn-primary" href="">
+                <a class="btn btn-primary" href="{% url 'gestion_publicaciones:asignar_revisores' publicacion.id %}">
                     Asignar revisores ahora
                 </a>
             {% endif %}
