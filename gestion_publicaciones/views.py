@@ -1,9 +1,16 @@
 from django.views.generic import ListView
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.models import Group
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib import messages
+from django.core.mail import EmailMessage
 from gestion_publicaciones.models import Estado, Revision
 from publicaciones.models import Publicacion
 from usuarios.models import Usuario
+from django.views.generic import TemplateView
+from .token import token_estado
 
 # Create your views here.
 class PublicacionesList(ListView):
@@ -45,7 +52,7 @@ def es_revisor(user):
 def asignar_revisores(request):
 
     publicacion_seleccionada = get_object_or_404(Publicacion,
-                                    id=int(request.POST['publicacion']))
+                                                 id=int(request.POST['publicacion']))
     if request.method=='POST':
 
         contador = 0
@@ -54,10 +61,79 @@ def asignar_revisores(request):
             if request.POST[item]=='Selected' and contador<4:
 
                 revisor = Usuario.objects.get(id=int(item))
-                Revision.objects.create(publicacion=publicacion_seleccionada,
-                                        usuario_revisor=revisor,
-                                        estado=Estado.objects.get(id=1)).save()
+                revision = Revision.objects.create(publicacion=publicacion_seleccionada,
+                                                   usuario_revisor=revisor,
+                                                   estado=Estado.objects.get(id=1))
+                revision.save()
                 contador = contador + 1
+                enviar_correo(revision, revisor, publicacion_seleccionada, request)
 
     return redirect('gestion_publicaciones:detalle_publicacion',
                     pk=publicacion_seleccionada.id)
+
+def enviar_correo(revision, usuario, publicacion, request):
+
+    dominio = get_current_site(request)
+    rid = urlsafe_base64_encode(force_bytes(revision.id))
+    token = token_estado.make_token(revision)
+    if revision.estado==Estado.objects.get(id=1):
+
+        mensaje = render_to_string('solicitud_revision.html',
+        {
+            'usuario': usuario, 
+            'dominio': dominio,
+            'publicacion': publicacion,
+            'rid': rid,
+            'revision': revision,
+            'token':token
+        })
+        asunto = 'Solicitud de revisión'
+
+    else:
+
+        mensaje = render_to_string('recordatorio_revision.html',
+        {
+            'usuario': usuario,
+            'dominio': dominio,
+            'publicacion': publicacion
+        })
+        asunto = 'Recordatorio de revisión'
+
+    to = usuario.correo_electronico
+    email = EmailMessage(
+            asunto,
+            mensaje,
+            to=[to]
+            )
+    email.content_subtype = 'html'
+    email.send()
+
+class CambiarEstadoSolicitud(TemplateView):
+
+    def get(self, request, *args, **kwargs):
+
+        try:
+
+            rid = urlsafe_base64_decode(kwargs['rid64'])
+            estado = kwargs['estado']
+            token = kwargs['token']
+            revision = Revision.objects.get(id=rid)
+
+        except:
+
+            revision =  None
+        if revision and token_estado.check_token(revision,token):
+
+            if estado=='2':
+
+                revision.estado = Estado.objects.get(id=2)
+                messages.success(self.request,'Aceptaste la solicitud de revisión')
+            else:
+
+                revision.estado = Estado.objects.get(id=3)
+                messages.error(self.request,'Rechazaste la solicitud de revisión')
+            revision.save()
+        else:
+
+            messages.error(self.request,'No se realizó la acción correctamente')
+        return redirect('usuarios:login')

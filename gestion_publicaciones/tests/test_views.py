@@ -133,3 +133,4 @@ class TestViews(TestCase):
         response = self.client.get('/gestion-publicaciones/asignar-revisores/'+
                                    str(publicacion.id))
         self.assertIn('revisores', response.context)
+

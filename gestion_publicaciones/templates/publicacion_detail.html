@@ -72,11 +72,11 @@ Detalle de Publicación
                             </td>
                             <td>{{revision.estado.descripcion}}</td>
                             <td>
-                                {% if revision.estado == 2 %}
+                                {% if revision.estado.id == 2 %}
                                     <a class="btn btn-success" href="">
                                         Envíar recordatorio
                                     </a>
-                                {% elif revision.estado == 3 %}
+                                {% elif revision.estado.id == 3 %}
                                     <a class="btn btn-warning" href="">
                                         Cambiar revisor
                                     </a>

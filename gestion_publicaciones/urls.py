@@ -12,4 +12,7 @@ urlpatterns = [
          name='asignar_revisores'),
     path('agregar-revisores/', views.asignar_revisores,
          name='agregar_revisores'),
+    path('cambiar-estado-solicitud/<slug:rid64>/<slug:token>/<slug:estado>',
+         views.CambiarEstadoSolicitud.as_view(),
+         name='cambiar_estado_solicitud'),
 ]
