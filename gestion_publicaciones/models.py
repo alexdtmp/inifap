@@ -13,7 +13,7 @@ class Revision(models.Model):
                                     on_delete=models.CASCADE,
                                     null=True)
     archivo = models.FileField(upload_to='revisiones/', max_length=100,
-                               null=True)
+                               null=True, blank=True)
     estado = models.ForeignKey("gestion_publicaciones.Estado",
                                verbose_name="Estado",
                                on_delete=models.CASCADE,

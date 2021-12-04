@@ -6,7 +6,7 @@ Característica: Como usuario postulante del sistema quiero subir una publicaci�
         Y hago clic en la pestaña "Publicaciones"
         Y puedo ver el encabezado "Mis Publicaciones"
         Y hago clic en el enlace "Nueva Publicación"
-        Y hago clic en el botón "Elegir archivo" y selecciono el archivo con la ruta "C:/Users/alejv/Downloads/doc.docx"
+        Y hago clic en el botón "Elegir archivo" y selecciono el archivo con la ruta "C:/Users/alejv/Downloads/What_is_use_case_testing.pdf"
         Y introduzco el título "Prueba Archivo" en el campo designado
         Cuando doy click en el botón "Enviar archivo a revisión"
         Entonces recibo el mensaje "Tu publicación se ha cargado con éxito y pronto será revisada".
