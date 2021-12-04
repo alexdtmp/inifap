@@ -137,3 +137,12 @@ class CambiarEstadoSolicitud(TemplateView):
 
             messages.error(self.request,'No se realizó la acción correctamente')
         return redirect('usuarios:login')
+
+def recordatorio(request, pk):
+
+    revision = get_object_or_404(Revision, id=pk)
+    publicacion = Publicacion.objects.get(id=revision.publicacion.id)
+    usuario = Usuario.objects.get(id=revision.usuario_revisor.id)
+    enviar_correo(revision, usuario, publicacion, request)
+    return redirect('gestion_publicaciones:detalle_publicacion',
+                    pk=publicacion.id)

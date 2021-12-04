@@ -15,4 +15,7 @@ urlpatterns = [
     path('cambiar-estado-solicitud/<slug:rid64>/<slug:token>/<slug:estado>',
          views.CambiarEstadoSolicitud.as_view(),
          name='cambiar_estado_solicitud'),
+    path('enviar-recordatorio/<int:pk>',
+         views.recordatorio,
+         name='enviar_recordatorio'),
 ]

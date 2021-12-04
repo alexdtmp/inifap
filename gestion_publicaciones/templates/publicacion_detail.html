@@ -73,7 +73,7 @@ Detalle de Publicación
                             <td>{{revision.estado.descripcion}}</td>
                             <td>
                                 {% if revision.estado.id == 2 %}
-                                    <a class="btn btn-success" href="">
+                                    <a class="btn btn-success" href="{% url 'gestion_publicaciones:enviar_recordatorio' revision.id %}">
                                         Envíar recordatorio
                                     </a>
                                 {% elif revision.estado.id == 3 %}
