@@ -33,7 +33,8 @@ class TestViews(TestCase):
                                            usuario_revisor=Usuario.objects.all().first(),
                                            archivo='archivo_prueba.txt',
                                            estado=estado_nuevo)
-        
+        revision.save()
+
     def test_url_publicaciones_lista(self):
     
         response = self.client.get('/gestion-publicaciones/lista-publicaciones')
@@ -134,3 +135,44 @@ class TestViews(TestCase):
                                    str(publicacion.id))
         self.assertIn('revisores', response.context)
 
+    def test_url_publicaciones_lista(self):
+        
+        self.crear_publicacion_revision()
+        response = self.client.get('/gestion-publicaciones/cambiar-revisor/'+
+                                   str(Revision.objects.all().first().id))
+        self.assertEqual(response.status_code, 200)
+
+    def test_nombre_url_cambiar_revisor(self):
+
+        self.crear_publicacion_revision()
+        response = self.client.get(reverse('gestion_publicaciones:cambiar_revisor',
+                                           args=[str(Revision.objects.all().first().id)]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_correcto_cambiar_revisor(self):
+
+        self.crear_publicacion_revision()
+        response = self.client.get(reverse('gestion_publicaciones:cambiar_revisor',
+                                           args=[str(Revision.objects.all().first().id)]))
+        self.assertTemplateUsed(response, 'asignar_nuevo_revisor.html')
+
+    def test_envio_datos_url_cambiar_revisor_revision(self):
+    
+        self.crear_publicacion_revision()
+        response = self.client.get(reverse('gestion_publicaciones:cambiar_revisor',
+                                           args=[str(Revision.objects.all().first().id)]))
+        self.assertIn('revision', response.context)
+
+    def test_envio_datos_url_cambiar_revisor_publicacion(self):
+        
+        self.crear_publicacion_revision()
+        response = self.client.get(reverse('gestion_publicaciones:cambiar_revisor',
+                                           args=[str(Revision.objects.all().first().id)]))
+        self.assertIn('publicacion', response.context)
+
+    def test_envio_datos_url_cambiar_revisor_lista_usuarios_disponibles(self):
+        
+        self.crear_publicacion_revision()
+        response = self.client.get(reverse('gestion_publicaciones:cambiar_revisor',
+                                           args=[str(Revision.objects.all().first().id)]))
+        self.assertIn('usuarios_disponibles', response.context)

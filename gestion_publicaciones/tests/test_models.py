@@ -79,3 +79,16 @@ class TestViews(TestCase):
                                            estado=estado_nuevo)
         self.assertEquals(revision,
                           Revision.objects.filter(id=revision.id).first())
+
+    def insercion_estado(self):
+
+        estado_nuevo = Estado.objects.create(descripcion='En espera')
+        estado_nuevo.save()
+        self.assertEquals(estado_nuevo,
+                          Estado.objects.filter(id=estado_nuevo.id).first())
+
+    def insercion_estado_sin_descricion(self):
+    
+        estado_nuevo = Estado.objects.create(descripcion=None)
+        estado_nuevo.save()
+        self.assertEquals(Estado.objects.all().count(), 0)

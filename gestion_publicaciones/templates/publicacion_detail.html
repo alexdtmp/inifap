@@ -77,7 +77,7 @@ Detalle de Publicación
                                         Envíar recordatorio
                                     </a>
                                 {% elif revision.estado.id == 3 %}
-                                    <a class="btn btn-warning" href="">
+                                    <a class="btn btn-warning" href="{% url 'gestion_publicaciones:cambiar_revisor' revision.id %}">
                                         Cambiar revisor
                                     </a>
                                 {% endif %}

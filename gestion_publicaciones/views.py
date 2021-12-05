@@ -43,7 +43,7 @@ def mostrar_lista_revisores(request, pk):
             revisores.append(usuario)
     context = {'publicacion': publicacion_seleccionada,
                'revisores': revisores}
-    return render(request, 'revisores_list.html',context)
+    return render(request, 'revisores_list.html', context)
         
 def es_revisor(user):
 
@@ -122,7 +122,7 @@ class CambiarEstadoSolicitud(TemplateView):
         except:
 
             revision =  None
-        if revision and token_estado.check_token(revision,token):
+        if revision and token_estado.check_token(revision, token):
 
             if estado=='2':
 
@@ -146,3 +146,34 @@ def recordatorio(request, pk):
     enviar_correo(revision, usuario, publicacion, request)
     return redirect('gestion_publicaciones:detalle_publicacion',
                     pk=publicacion.id)
+
+def cambiar_revisor(request, pk):
+
+    if request.method=='GET':
+        revision = get_object_or_404(Revision, id=pk)
+        revisiones = Revision.objects.all().filter(publicacion=revision.publicacion)
+        usuarios_disponibles = []
+        usuarios_no_disponibles = []
+        usuarios = Usuario.objects.all()
+        for r in revisiones:
+
+            usuarios_no_disponibles.append(r.usuario_revisor.id)
+        for usuario in usuarios:
+
+            if es_revisor(usuario) and usuario.id not in usuarios_no_disponibles:
+
+                usuarios_disponibles.append(usuario)
+        context = {'revision': revision,
+                   'usuarios_disponibles': usuarios_disponibles,
+                   'publicacion': revision.publicacion}
+        return render(request, 'asignar_nuevo_revisor.html', context)
+    else:
+
+        revision = get_object_or_404(Revision, id=pk)
+        usuario = Usuario.objects.get(id=int(request.POST['usuario']))
+        revision.usuario_revisor = usuario
+        revision.estado=Estado.objects.get(id=1)
+        revision.save()
+        enviar_correo(revision, usuario, revision.publicacion, request)
+        return redirect('gestion_publicaciones:detalle_publicacion',
+                    pk=revision.publicacion.id)

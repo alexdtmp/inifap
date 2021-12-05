@@ -18,4 +18,7 @@ urlpatterns = [
     path('enviar-recordatorio/<int:pk>',
          views.recordatorio,
          name='enviar_recordatorio'),
+    path('cambiar-revisor/<int:pk>',
+         views.cambiar_revisor,
+         name='cambiar_revisor'),
 ]
