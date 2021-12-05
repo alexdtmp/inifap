@@ -1,6 +1,7 @@
 from django import forms
 from .models import Usuario
 
+
 class UsuarioForm(forms.ModelForm):
 
     class Meta:
@@ -42,4 +43,3 @@ class UsuarioForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-        

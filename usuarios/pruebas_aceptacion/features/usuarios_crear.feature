@@ -3,7 +3,7 @@ Característica: Crear usuario
     para un trabajador del INIFAP para que pueda comenzar a utilizar el sistema.
 
     Escenario: Crear usuario correctamente
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "Ramírez" en el apellido
@@ -14,7 +14,7 @@ Característica: Crear usuario
         Entonces puede ver al usuario "admin_juan" en la lista de usuarios
 
     Escenario: Crear usuario con nombre de usuario existente
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "Pacheco" en el apellido
@@ -25,7 +25,7 @@ Característica: Crear usuario
         Entonces puede ver el mensaje "Ya existe un usuario con ese nombre." en la página
     
     Escenario: Crear usuario con correo ya existente
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "Pacheco" en el apellido
@@ -36,7 +36,7 @@ Característica: Crear usuario
         Entonces puede ver el mensaje "Ya existe un/a Usuario con este/a Correo electronico." en la página
 
     Escenario: Crear usuario sin nombre
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Pacheco" en el apellido
         Y capturo "admin_juan_pacheco" en el username
@@ -47,7 +47,7 @@ Característica: Crear usuario
 
     
     Escenario: Crear usuario sin primer apellido
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "admin_juan_pacheco" en el username
@@ -57,7 +57,7 @@ Característica: Crear usuario
         Entonces sigo en la misma página con el título "Nuevo usuario"
     
     Escenario: Crear usuario sin username
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "Pacheco" en el apellido
@@ -67,7 +67,7 @@ Característica: Crear usuario
         Entonces sigo en la misma página con el título "Nuevo usuario"
     
     Escenario: Crear usuario sin password
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "Pacheco" en el apellido
@@ -77,7 +77,7 @@ Característica: Crear usuario
         Entonces sigo en la misma página con el título "Nuevo usuario"
     
     Escenario: Crear usuario con segundo apellido
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Y hago click en el botón "Nuevo usuario"
         Y capturo "Juan" en el nombre
         Y capturo "Pacheco" en el apellido

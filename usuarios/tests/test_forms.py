@@ -94,4 +94,3 @@ class TestFormUsuario(TestCase):
         self.data_usuario['segundo_apellido'] = 'Rodarte'*20
         form = UsuarioForm(self.data_usuario)
         self.assertFalse(form.is_valid())
-

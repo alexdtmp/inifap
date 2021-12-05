@@ -1,15 +1,12 @@
 from behave import when, then, given
-from selenium import webdriver
-from unittest import TestCase
 import time
 
-#Nuevo usuario
+
+# Nuevo usuario
 @given(u'que ingreso al sistema con la dirección "{url}"')
 def step_impl(context, url):
-    context.driver = webdriver.Chrome()
-    context.driver.maximize_window()
-    context.test = TestCase()
-    url_login = 'http://192.168.33.10:8000/usuarios/login'
+
+    url_login = context.url+'usuarios/login'
     context.driver.get(url_login)
     time.sleep(2)
     context.driver.find_element_by_id("id_username").send_keys('admin')
@@ -18,7 +15,7 @@ def step_impl(context, url):
     time.sleep(2)
     context.driver.find_elements_by_xpath("//*[contains(text(), 'Ingresar')]")[0].click()
     time.sleep(2)
-    context.driver.get(url)
+    context.driver.get(context.url+url)
     time.sleep(2)
 
 
@@ -85,17 +82,20 @@ def step_impl(context, boton):
     context.driver.find_elements_by_xpath("//*[contains(text(), '"+boton+"')]")[0].click()
     time.sleep(2)
 
+
 @then(u'puede ver al usuario "{usuario}" en la lista de usuarios')
 def step_impl(context, usuario):
 
     context.test.assertIn(usuario, context.driver.page_source)
     time.sleep(2)
 
+
 @then(u'puede ver el mensaje "{mensaje}" en la página')
 def step_impl(context, mensaje):
 
     context.test.assertIn(mensaje, context.driver.page_source)
     time.sleep(2)
+
 
 @then(u'sigo en la misma página con el título "{titulo}"')
 def step_impl(context, titulo):
@@ -104,12 +104,14 @@ def step_impl(context, titulo):
     assert titulo == respuesta.text, f"esperado es {titulo} y obtenido es {respuesta.text}"
     time.sleep(2)
 
-#Iniciar sesión
+
+# Iniciar sesión
 @given(u'capturo "{username}" en el nombre de usuario')
 def step_impl(context, username):
 
     context.driver.find_element_by_id("id_username").send_keys(username)
     time.sleep(2)
+
 
 @given(u'capturo "{password}" en contraseña')
 def step_impl(context, password):
@@ -117,11 +119,13 @@ def step_impl(context, password):
     context.driver.find_element_by_id("id_password").send_keys(password)
     time.sleep(2)
 
+
 @then(u'puedo ver la página de "{pagina}"')
 def step_impl(context, pagina):
 
     context.test.assertIn(pagina, context.driver.page_source)
     time.sleep(2)
+
 
 @then(u'puedo ver la alerta "{alerta}" en la página')
 def step_impl(context, alerta):
@@ -129,12 +133,14 @@ def step_impl(context, alerta):
     context.test.assertIn(alerta, context.driver.page_source)
     time.sleep(2)
 
-#Eliminar Usuario
+
+# Eliminar Usuario
 @given(u'presiono el botón de eliminar correspondiente a un registro de la lista')
 def step_impl(context):
 
     context.driver.find_element_by_xpath('//*[@id="datatablesSimple"]/tbody/tr[1]/td[7]/button').click()
     time.sleep(2)
+
 
 @given(u'presiono el botón "Sí, estoy seguro"')
 def step_impl(context):
@@ -142,18 +148,21 @@ def step_impl(context):
     context.driver.find_element_by_xpath('/html/body/div[2]/div/div[6]/button[1]').click()
     time.sleep(2)
 
+
 @given(u'presiono el botón "Cancelar"')
 def step_impl(context):
 
     context.driver.find_element_by_xpath('/html/body/div[2]/div/div[6]/button[3]').click()
     time.sleep(2)
 
-#Modificar
+
+# Modificar
 @given(u'presiono el botón de modificar correspondiente a un registro de la lista')
 def step_impl(context):
 
     context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[2]').click()
     time.sleep(2)
+
 
 @given(u'capturo "" en el nombre')
 def step_impl(context):
@@ -161,11 +170,13 @@ def step_impl(context):
     context.driver.find_element_by_id("id_nombre").clear()
     time.sleep(2)
 
+
 @given(u'capturo "" en el apellido')
 def step_impl(context):
 
     context.driver.find_element_by_id("id_apellido").clear()
     time.sleep(2)
+
 
 @given(u'capturo "" en el username')
 def step_impl(context):
@@ -173,7 +184,8 @@ def step_impl(context):
     context.driver.find_element_by_id("id_username").clear()
     time.sleep(2)
 
-#Detalle
+
+# Detalle
 @when(u'presiono el botón de ver correspondiente a un registro de la lista')
 def step_impl(context):
 

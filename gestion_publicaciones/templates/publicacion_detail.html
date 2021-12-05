@@ -11,6 +11,34 @@ Detalle de Publicación
 
 {% block encabezado %} 
 <div class="container">
+    {% block mensajes %}    
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'success'
+                            })
+                        </script>
+                    {% elif message.tags == 'error' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'error'
+                            })
+                        </script>
+                    {% elif message.tags == 'info' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'info'
+                            })
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endblock mensajes %}
     <div class="row align-items-center justify-content-between">
         <div class="col-md-5">
             Detalle de Publicación
@@ -33,8 +61,8 @@ Detalle de Publicación
             <p><b>Fecha de publicación: </b>{{publicacion.fecha_publicacion}}</p>
             <p>
                 <b>Estatus: </b>
-                {% if revisiones %}
-                    {{revisiones.lenght}} revision(es)
+                {% if estatus %}
+                    {{estatus}} revision(es)
                 {% else %}
                     {{publicacion.estatus}}
                 {% endif %}

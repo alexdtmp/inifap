@@ -15,4 +15,4 @@ def browser_chrome(context):
 
 def before_all(context):
     use_fixture(browser_chrome, context)
-    # -- NOTE: CLEANUP-FIXTURE is cal
+    # -- NOTE: CLEANUP-FIXTURE is called after after_all() hook.

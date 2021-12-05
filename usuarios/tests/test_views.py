@@ -6,7 +6,7 @@ from usuarios.models import Usuario
 # Create your tests here.
 class TestViews(TestCase):
 
-# Test crear usuario y lista usuario
+    # Test crear usuario y lista usuario
     def setUp(self):
 
         self.data_usuario = {
@@ -28,7 +28,7 @@ class TestViews(TestCase):
         response = self.client.get(reverse('usuarios:lista'))
         self.assertEqual(response.status_code, 200)
 
-    def test_template_correcto_nuevo_usuario(self):
+    def test_template_correcto_lista_usuario(self):
 
         response = self.client.get('/usuarios/lista')
         self.assertTemplateUsed(response, 'usuarios/usuario_list.html')
@@ -140,7 +140,7 @@ class TestViews(TestCase):
         response = self.client.post('/usuarios/nuevo', data=self.data_usuario)
         self.assertEqual(response.url, '/usuarios/lista')
 
-#Login
+    # Login
     def test_url_usuarios_login(self):
 
         response = self.client.get('/usuarios/login')
@@ -155,15 +155,15 @@ class TestViews(TestCase):
 
         response = self.client.get('/usuarios/login')
         self.assertTemplateUsed(response, 'login.html')
-        
-#Eliminar
+
+    # Eliminar
     def test_usuario_eliminar_correctamente(self):
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
         self.client.post('/usuarios/eliminar/'+str(user.id))
         self.assertEqual(Usuario.objects.all().count(), 0)
 
-#Modificar
+    # Modificar
     def test_url_usuarios_modificar(self):
 
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
@@ -175,11 +175,11 @@ class TestViews(TestCase):
 
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
-        response = self.client.get(reverse('usuarios:modificar', 
+        response = self.client.get(reverse('usuarios:modificar',
                                            args=[str(user.id)]))
         self.assertEqual(response.status_code, 200)
 
-    def test_template_correcto_nuevo_usuario(self):
+    def test_template_correcto_modificar_usuario(self):
 
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
@@ -321,7 +321,7 @@ class TestViews(TestCase):
         self.assertEqual(Usuario.objects.get(id=user.id).segundo_apellido,
                          user.segundo_apellido)
 
-    def test_redirige_despues_de_agregar_usuario(self):
+    def test_redirige_despues_de_modificar_usuario(self):
 
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
@@ -329,9 +329,9 @@ class TestViews(TestCase):
                                     data=self.data_usuario)
         self.assertEqual(response.url, '/usuarios/lista')
 
-#Detalle
+    # Detalle
     def test_url_usuarios_detalle(self):
-    
+
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
         response = self.client.get('/usuarios/detalle/'+str(user.id))
@@ -341,7 +341,7 @@ class TestViews(TestCase):
 
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
-        response = self.client.get(reverse('usuarios:detalle', 
+        response = self.client.get(reverse('usuarios:detalle',
                                            args=[str(user.id)]))
         self.assertEqual(response.status_code, 200)
 
@@ -359,8 +359,8 @@ class TestViews(TestCase):
         response = self.client.get('/usuarios/detalle/'+str(user.id))
         self.assertIn('usuario', response.context)
 
-    def test_envio_datos_usuario_url_usuarios_detalle(self):
-        
+    def test_envio_permisos_usuario_url_usuarios_detalle(self):
+
         self.client.post('/usuarios/nuevo', data=self.data_usuario)
         user = Usuario.objects.get(username=self.data_usuario['username'])
         response = self.client.get('/usuarios/detalle/'+str(user.id))

@@ -1,6 +1,4 @@
 from django.contrib import admin
-from .models import Revision, Estado
-
 from gestion_publicaciones.models import Revision, Estado
 
 # Register your models here.

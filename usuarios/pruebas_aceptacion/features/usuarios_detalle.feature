@@ -3,6 +3,6 @@ Característica: Detalle usuario
     para saber sus datos.
 
     Escenario: Modificar usuario correctamente
-        Dado que ingreso al sistema con la dirección "http://192.168.33.10:8000/usuarios/lista"
+        Dado que ingreso al sistema con la dirección "usuarios/lista"
         Cuando presiono el botón de ver correspondiente a un registro de la lista
         Entonces puedo ver la página de "Detalle del Usuario"
