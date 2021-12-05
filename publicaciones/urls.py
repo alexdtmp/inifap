@@ -10,5 +10,5 @@ urlpatterns = [
      path('mis-publicaciones/nueva',
          views.PublicacionNueva.as_view(), name='nueva_publicacion'),
      path('revisar-publicaciones/', views.RevisionesList.as_view(),
-          name='revisar-publicaciones')
+          name='revisar_publicaciones')
 ]
