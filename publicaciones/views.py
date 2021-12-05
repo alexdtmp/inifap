@@ -5,6 +5,7 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView
 from publicaciones.forms import PublicacionForm
 from publicaciones.models import Publicacion
+from gestion_publicaciones.models import Revision
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -13,11 +14,21 @@ from django.contrib import messages
 
 # Lista de publicaciones
 class MisPublicacionesList(PermissionRequiredMixin, ListView):
-    permission_required = 'publicaciones.view_publicacion'
+    permission_required = 'publicaciones.add_publicacion'
     template_name = "mis_publicaciones_list.html"
     model = Publicacion
 
 # Página de inicio
+
+# Lista de revisiones pendientes (publicaciones)
+class RevisionesList(PermissionRequiredMixin, ListView):
+    permission_required = 'publicaciones.view_publicacion'
+    template_name = 'publicaciones_revisar_list.html'
+    model = Revision
+    
+    def get_queryset(self):
+        usuario_actual = self.request.user
+        return Revision.objects.filter(usuario_revisor = usuario_actual.id)
 
 
 class InicioView(TemplateView):

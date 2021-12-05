@@ -1,19 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Bienvenido al Sistema de Gestión de Publicaciones Técnicas y Científicas del INIFAP</h1>
-    <p> 
-        {% ifequal user.groups.all.0.name 'Postulantes' %} 
-            <a href="{% url 'publicaciones:mis-publicaciones' %}" id="gestor_publicaciones">Publicaciones</a>
-        {% else %}
-            <p id='mostrar_nada'>Nada que mostrar</p>
-        {% endifequal %}
-    </p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% load user_tags %}
+
+
+{% block titulo %}
+Bienvenido al Sistema de Gestión de Publicaciones Técnicas y Científicas del INIFAP
+{% endblock titulo %}
+
+
+{% block encabezado %}
+    
+{% endblock encabezado %}
+
+
+{% block contenido %}
+    <body>
+        <h1>Bienvenido al Sistema de Gestión de Publicaciones Técnicas y Científicas del INIFAP</h1>
+        <p> 
+            
+        </p>
+    </body>
+{% endblock contenido %}
+    
+    
+
