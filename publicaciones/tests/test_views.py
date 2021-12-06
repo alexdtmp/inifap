@@ -3,6 +3,7 @@ from django.test import TestCase
 from publicaciones.models import Publicacion
 from catalogos.models import Estatus
 from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User
 
 from usuarios.models import Usuario
 
@@ -11,7 +12,7 @@ from usuarios.models import Usuario
 class TestViews(TestCase):
 
     def setUp(self):
-        self.user = Usuario.objects.create(username='user', password='pass')
+        self.user = User.objects.create_user(username='user', password='pass')
         self.user.save()
 
     # Probar que hay una página en la url raíz
@@ -42,7 +43,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         response = self.client.get('/mis-publicaciones/')
         self.assertTemplateUsed(response, 'mis_publicaciones_list.html')
@@ -77,7 +78,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         response = self.client.get('/mis-publicaciones/')
         self.assertIn('object_list', response.context)
@@ -89,7 +90,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -102,7 +103,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -116,7 +117,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -131,7 +132,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
