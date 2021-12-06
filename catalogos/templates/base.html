@@ -65,7 +65,7 @@
                             {% endif %}
 
                             {% if request.user|has_group:"Revisor" %}
-                                <a class="nav-link" href="{% url 'publicaciones:revisar_publicaciones' %}">
+                                <a class="nav-link" href="{% url 'publicaciones:revisar_publicaciones' %}" id="id_mis_revisiones">
                                     Mis revisiones
                                 </a>    
                                 {% define "true" as hay_opciones %}

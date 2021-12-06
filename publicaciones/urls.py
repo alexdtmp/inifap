@@ -10,5 +10,7 @@ urlpatterns = [
      path('mis-publicaciones/nueva/',
          views.PublicacionNueva.as_view(), name='nueva_publicacion'),
      path('revisar-publicaciones/', views.RevisionesList.as_view(),
-          name='revisar_publicaciones')
+          name='revisar_publicaciones'),
+     path("revisar-publicaciones/detalle/<int:pk>/", views.RevisionDetail.as_view(), name="detalle_revision"),
+     
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.template import RequestContext
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView
 from publicaciones.forms import PublicacionForm
 from publicaciones.models import Publicacion
@@ -36,9 +36,13 @@ class RevisionesList(PermissionRequiredMixin, ListView):
 class InicioView(TemplateView):
     template_name = "inicio.html"
 
+class RevisionDetail(PermissionRequiredMixin, DetailView):
+    permission_required = 'gestion_publicaciones.change_revision'
+    template_name = 'publicacion_revisar_detail.html'
+    model = Revision
+    
+    
 # Nueva publicación
-
-
 class PublicacionNueva(PermissionRequiredMixin, CreateView):
     permission_required = 'publicaciones.add_publicacion'
     template_name = "publicacion_create.html"
