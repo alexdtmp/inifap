@@ -61,7 +61,7 @@ def login(request):
             if usuario.is_active:
 
                 auth_login(request, usuario)
-                return redirect('usuarios:lista')
+                return redirect('publicaciones:inicio')
         else:
 
             messages.error(request, 'El usuario o la contraseña no son correctos')

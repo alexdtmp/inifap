@@ -2,15 +2,16 @@ import datetime
 from django.test import TestCase
 from publicaciones.models import Publicacion
 from catalogos.models import Estatus
-from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
+
+from usuarios.models import Usuario
 
 
 # Create your tests here.
 class TestViews(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username='user', password='pass')
+        self.user = Usuario.objects.create(username='user', password='pass')
         self.user.save()
 
     # Probar que hay una página en la url raíz
@@ -29,7 +30,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         response = self.client.get('/mis-publicaciones/')
         self.assertEqual(response.status_code, 200)
@@ -54,7 +55,7 @@ class TestViews(TestCase):
         id_permiso = Permission.objects.filter(
             codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
-        response = self.client.get('/mis-publicaciones/nueva')
+        response = self.client.get('/mis-publicaciones/nueva/')
         self.assertEqual(response.status_code, 200)
 
      # Probar que la página en la dirección '/mis-publicaciones/nueva' 
@@ -66,7 +67,7 @@ class TestViews(TestCase):
         id_permiso = Permission.objects.filter(
             codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
-        response = self.client.get('/mis-publicaciones/nueva')
+        response = self.client.get('/mis-publicaciones/nueva/')
         self.assertTemplateUsed(response, 'publicacion_create.html')
 
     # Probar envío de datos consultando 
@@ -142,7 +143,7 @@ class TestViews(TestCase):
     def test_nueva_publicacion_403(self):
         # login con usuario recién creado
         self.client.login(username='user', password='pass')
-        response = self.client.get('/mis-publicaciones/nueva')
+        response = self.client.get('/mis-publicaciones/nueva/')
         self.assertEqual(response.status_code, 403)
 
     # Probar acceso restringido a la view de 
@@ -159,7 +160,7 @@ class TestViews(TestCase):
             archivo='archivo_prueba.txt',
             estatus=Estatus.objects.create(
                 descripcion='en espera'),  # Estatus pendiente
-            autor=User.objects.create(
+            autor=Usuario.objects.create(
                 username='autor_prueba', password='contra123'),
             titulo="Prueba"
         )

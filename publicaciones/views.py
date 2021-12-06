@@ -11,6 +11,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib import messages
 
+from usuarios.models import Usuario
+
 
 # Lista de publicaciones
 class MisPublicacionesList(PermissionRequiredMixin, ListView):
@@ -49,7 +51,7 @@ class PublicacionNueva(PermissionRequiredMixin, CreateView):
         if form.is_valid():
             nueva_publicacion = Publicacion(archivo=request.FILES['archivo'])
             nueva_publicacion.titulo = request.POST['titulo']
-            nueva_publicacion.autor = User.objects.filter(
+            nueva_publicacion.autor = Usuario.objects.filter(
                 id=request.user.id).first()
             nueva_publicacion.save()
             messages.success(

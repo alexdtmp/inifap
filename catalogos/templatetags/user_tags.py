@@ -11,3 +11,7 @@ def has_group(user, group_name):
         return group in user.groups.all()
     else:
         return False
+    
+@register.simple_tag
+def define(val=None):
+    return val
