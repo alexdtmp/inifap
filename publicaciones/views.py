@@ -24,7 +24,7 @@ class MisPublicacionesList(PermissionRequiredMixin, ListView):
 
 # Lista de revisiones pendientes (publicaciones)
 class RevisionesList(PermissionRequiredMixin, ListView):
-    permission_required = 'publicaciones.view_publicacion'
+    permission_required = 'gestion_publicaciones.change_revision'
     template_name = 'publicaciones_revisar_list.html'
     model = Revision
     
