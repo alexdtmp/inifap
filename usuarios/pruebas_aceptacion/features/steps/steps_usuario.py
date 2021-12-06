@@ -191,3 +191,40 @@ def step_impl(context):
 
     context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[1]').click()
     time.sleep(2)
+
+
+# Modificar permisos
+@when(u'selecciono el permiso Administrador')
+def step_impl(context):
+
+    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
+    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[1]/div[2]/label/span")[0].click()
+    time.sleep(2)
+
+
+@when(u'selecciono el permiso Gestor')
+def step_impl(context):
+
+    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
+    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[2]/div[2]/label/span")[0].click()
+    time.sleep(2)
+
+
+@when(u'selecciono el permiso Postulante')
+def step_impl(context):
+
+    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
+    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[3]/div[2]/label/span")[0].click()
+    time.sleep(2)
+
+
+@when(u'selecciono el permiso Revisor')
+def step_impl(context):
+
+    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
+    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[4]/div[2]/label/span")[0].click()
+    time.sleep(2)

@@ -23,7 +23,7 @@ Característica: Como usuario gestor del sistema
         Y presiono el botón "Cambiar revisor"
         Entonces no puedo presionar el botón Aceptar
     
-    Escenario: Cambiar revisor cancelado
+    Escenario: Cambiar revisor correctamente
         Dado que ingreso al sistema con la dirección "gestion-publicaciones/lista-publicaciones"
         Y presiono el botón ver de la segunda publicación de la lista
         Y presiono el botón "Cambiar revisor"
