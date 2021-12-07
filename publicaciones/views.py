@@ -22,7 +22,7 @@ class MisPublicacionesList(PermissionRequiredMixin, ListView):
 
 # Página de inicio
 
-# Lista de revisiones pendientes (publicaciones)
+# Lista de revisiones pendientes
 class RevisionesList(PermissionRequiredMixin, ListView):
     permission_required = 'gestion_publicaciones.change_revision'
     template_name = 'publicaciones_revisar_list.html'
