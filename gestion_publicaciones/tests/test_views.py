@@ -198,7 +198,7 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_asignar_revisor_publicacion_no_existente(self):
-    
+
         self.crear_publicacion()
         self.crear_estados()
         id_usuario = str(Usuario.objects.all().first().id)
