@@ -3,6 +3,8 @@ from publicaciones.models import Publicacion
 from catalogos.models import Estatus
 from django.contrib.auth.models import User
 
+from usuarios.models import Usuario
+
 
 # Create your tests here.
 class TestModels(TestCase):
@@ -13,7 +15,7 @@ class TestModels(TestCase):
             archivo='archivo_prueba.txt',
             estatus=Estatus.objects.create(
                 descripcion='en espera'),  # Estatus pendiente
-            autor=User.objects.create(
+            autor=Usuario.objects.create(
                 username='autor_prueba', password='contra123'),
             titulo="Prueba"
         )

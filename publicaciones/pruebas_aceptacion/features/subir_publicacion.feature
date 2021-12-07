@@ -3,7 +3,7 @@ Característica: Como usuario postulante del sistema quiero subir una publicaci�
     Escenario: Subo un archivo al sistema exitosamente. 
         Dado que me encuentro logueado en el sistema como usuario postulante
         Y me dirijo a la pantalla de inicio del sistema en la dirección "http://192.168.33.10:8000/"
-        Y hago clic en la pestaña "Publicaciones"
+        Y hago clic en la pestaña "Mis publicaciones"
         Y puedo ver el encabezado "Mis Publicaciones"
         Y hago clic en el enlace "Nueva Publicación"
         Y hago clic en el botón "Elegir archivo" y selecciono el archivo con la ruta "C:/Users/alejv/Downloads/What_is_use_case_testing.pdf"
@@ -11,10 +11,10 @@ Característica: Como usuario postulante del sistema quiero subir una publicaci�
         Cuando doy click en el botón "Enviar archivo a revisión"
         Entonces recibo el mensaje "Tu publicación se ha cargado con éxito y pronto será revisada".
 
-    Escenario: El usuario no está logueado como postulante y por tanto no puede ver la opción “Publicaciones” en la pantalla de inicio.
+    Escenario: El usuario no está logueado como postulante y por tanto no puede ver la opción “Mis publicaciones” en la pantalla de inicio.
         Dado que no me encuentro logueado en el sistema como usuario postulante
-        Y me dirijo a la pantalla de inicio del sistema en la dirección "http://192.168.33.10:8000/"
-        Entonces puedo ver el mensaje "Nada que mostrar"
+        Cuando me dirijo a la pantalla de inicio del sistema en la dirección "http://192.168.33.10:8000/"
+        Entonces puedo ver el mensaje "Lo sentimos, tu cuenta de usuario no tiene acciones disponibles"
 
     Escenario: El usuario no está logueado como postulante y por tanto no puede acceder la página /mis-publicaciones/.
         Dado que no me encuentro logueado en el sistema como usuario postulante

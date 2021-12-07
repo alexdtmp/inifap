@@ -59,7 +59,7 @@ def login(request):
             if usuario.is_active:
 
                 auth_login(request, usuario)
-                return redirect('usuarios:lista')
+                return redirect('publicaciones:inicio')
         else:
 
             messages.error(request,

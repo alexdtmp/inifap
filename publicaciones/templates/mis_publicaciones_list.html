@@ -1,20 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <ul  {% if message.tags %} class=" {{ message.tags }} " {% endif %} id="id_messages"> {{ message }} </ul>
-    {% endfor %}
-</ul>
-{% endif %}
-<body>
-    <h1 id="titulo-mis-publicaciones">Mis Publicaciones</h1>
-    <a href="{% url 'publicaciones:nueva_publicacion' %}" id="nueva-publicacion">Nueva Publicación</a>    
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+Mis Publicaciones 
+{% endblock titulo %}
+
+{% block encabezado %}
+<div class="container">
+    {% block mensajes %}    
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'success'
+                            })
+                        </script>
+                    {% elif message.tags == 'error' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'error'
+                            })
+                        </script>
+                    {% elif message.tags == 'info' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'info'
+                            })
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endblock mensajes %}
+    <div class="row align-items-center justify-content-between">
+        <div class="col-md-9" id="titulo_mis_publicaciones">
+            Mis Publicaciones
+        </div>
+        <div class="col-md-auto">
+            <a class="btn btn-primary btn-lg" id="nueva_publicacion" href="{% url 'publicaciones:nueva_publicacion' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Nueva Publicación
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock encabezado %}
+
+
+{% block contenido %}
+{% endblock contenido %}
+    
+    

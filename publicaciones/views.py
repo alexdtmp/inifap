@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.template import RequestContext
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView
 from publicaciones.forms import PublicacionForm
 from publicaciones.models import Publicacion
@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib import messages
+
+from usuarios.models import Usuario
 
 
 # Lista de publicaciones
@@ -22,7 +24,7 @@ class MisPublicacionesList(PermissionRequiredMixin, ListView):
 
 # Lista de revisiones pendientes (publicaciones)
 class RevisionesList(PermissionRequiredMixin, ListView):
-    permission_required = 'publicaciones.view_publicacion'
+    permission_required = 'gestion_publicaciones.change_revision'
     template_name = 'publicaciones_revisar_list.html'
     model = Revision
     
@@ -34,9 +36,13 @@ class RevisionesList(PermissionRequiredMixin, ListView):
 class InicioView(TemplateView):
     template_name = "inicio.html"
 
+class RevisionDetail(PermissionRequiredMixin, DetailView):
+    permission_required = 'gestion_publicaciones.change_revision'
+    template_name = 'publicacion_revisar_detail.html'
+    model = Revision
+    
+    
 # Nueva publicación
-
-
 class PublicacionNueva(PermissionRequiredMixin, CreateView):
     permission_required = 'publicaciones.add_publicacion'
     template_name = "publicacion_create.html"
@@ -49,7 +55,7 @@ class PublicacionNueva(PermissionRequiredMixin, CreateView):
         if form.is_valid():
             nueva_publicacion = Publicacion(archivo=request.FILES['archivo'])
             nueva_publicacion.titulo = request.POST['titulo']
-            nueva_publicacion.autor = User.objects.filter(
+            nueva_publicacion.autor = Usuario.objects.filter(
                 id=request.user.id).first()
             nueva_publicacion.save()
             messages.success(

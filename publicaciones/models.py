@@ -11,5 +11,6 @@ class Publicacion(models.Model):
         'Fecha de Publicacion', auto_now_add=True)
     estatus = models.ForeignKey("catalogos.Estatus", verbose_name=(
         "Estatus"), on_delete=models.CASCADE, default=1)
-    autor = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=(
-        "Usuario"), on_delete=models.CASCADE)
+    autor = models.ForeignKey("usuarios.Usuario", 
+                              verbose_name=("Usuario Postulante"),
+                              on_delete=models.CASCADE)

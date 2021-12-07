@@ -1,16 +1,19 @@
 import datetime
 from django.test import TestCase
+from gestion_publicaciones.models import Estado, Revision
 from publicaciones.models import Publicacion
 from catalogos.models import Estatus
-from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User
+
+from usuarios.models import Usuario
 
 
 # Create your tests here.
 class TestViews(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username='user', password='pass')
+        self.user = Usuario.objects.create_user(username='user', password='pass', correo_electronico='mail@gmail.com')
         self.user.save()
 
     # Probar que hay una página en la url raíz
@@ -29,7 +32,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         response = self.client.get('/mis-publicaciones/')
         self.assertEqual(response.status_code, 200)
@@ -41,7 +44,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         response = self.client.get('/mis-publicaciones/')
         self.assertTemplateUsed(response, 'mis_publicaciones_list.html')
@@ -54,7 +57,7 @@ class TestViews(TestCase):
         id_permiso = Permission.objects.filter(
             codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
-        response = self.client.get('/mis-publicaciones/nueva')
+        response = self.client.get('/mis-publicaciones/nueva/')
         self.assertEqual(response.status_code, 200)
 
      # Probar que la página en la dirección '/mis-publicaciones/nueva' 
@@ -66,7 +69,7 @@ class TestViews(TestCase):
         id_permiso = Permission.objects.filter(
             codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
-        response = self.client.get('/mis-publicaciones/nueva')
+        response = self.client.get('/mis-publicaciones/nueva/')
         self.assertTemplateUsed(response, 'publicacion_create.html')
 
     # Probar envío de datos consultando 
@@ -76,7 +79,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         response = self.client.get('/mis-publicaciones/')
         self.assertIn('object_list', response.context)
@@ -88,7 +91,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -101,7 +104,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -115,7 +118,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -130,7 +133,7 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         # asignar permisos al user
         id_permiso = Permission.objects.filter(
-            codename='view_publicacion').first()
+            codename='add_publicacion').first()
         self.user.user_permissions.add(id_permiso)
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
@@ -142,7 +145,7 @@ class TestViews(TestCase):
     def test_nueva_publicacion_403(self):
         # login con usuario recién creado
         self.client.login(username='user', password='pass')
-        response = self.client.get('/mis-publicaciones/nueva')
+        response = self.client.get('/mis-publicaciones/nueva/')
         self.assertEqual(response.status_code, 403)
 
     # Probar acceso restringido a la view de 
@@ -153,13 +156,141 @@ class TestViews(TestCase):
         response = self.client.get('/mis-publicaciones/')
         self.assertEqual(response.status_code, 403)
 
+    # ======== REVISAR PUBLICACIONES ========
+    
+    # Probar que existe una página web en la direccion mis-revisiones
+    def test_url_mis_revisiones(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertEqual(response.status_code, 200)
+    
+    # Probar que la página en la dirección de mis 
+    # revisiones utiliza el template 'publicaciones_revisar_list.html'
+    def test_template_mis_publicaciones(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertTemplateUsed(response, 'publicaciones_revisar_list.html')
+    
+    # Probar envío de datos consultando 
+    # desde un ListView del modelo 'Revisión'
+    def test_envio_datos_revision(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertIn('object_list', response.context)
+        
+    # Probar envío de la publicación correspondiente a una revisión 
+    # desde un ListView del modelo 'Revisión', donde el object_list
+    # se filtra para mostrar únicamente los objetos pertenecientes al
+    # revisor logueado actualmente
+    def test_envio_publicacion_revision(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertEquals('Prueba', response.context['object_list'][0].publicacion.titulo)
+
+    # Probar envío del revisor correspondiente a una revisión 
+    # desde un ListView del modelo 'Revisión', donde el object_list
+    # se filtra para mostrar únicamente los objetos pertenecientes al
+    # revisor logueado actualmente
+    def test_envio_revisor_revision(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertEquals('user', response.context['object_list'][0].usuario_revisor.username)
+        
+        
+    # Probar envío del archivo correspondiente a una revisión 
+    # desde un ListView del modelo 'Revisión', donde el object_list
+    # se filtra para mostrar únicamente los objetos pertenecientes al
+    # revisor logueado actualmente
+    def test_envio_archivo_revision(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertEquals('archivo_prueba_2.txt', response.context['object_list'][0].archivo.name)
+        
+        
+    # Probar envío del estado correspondiente a una revisión 
+    # desde un ListView del modelo 'Revisión', donde el object_list
+    # se filtra para mostrar únicamente los objetos pertenecientes al
+    # revisor logueado actualmente
+    def test_envio_estado_revision(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        # asignar permisos al user
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertEquals('En espera', response.context['object_list'][0].estado.descripcion)    
+    
+    # Probar acceso restringido a la lista de 
+    # revisiones para usuarios que no tienen el permiso
+    def test_mis_revisiones_403(self):
+        # login con usuario recién creado
+        self.client.login(username='user', password='pass')
+        response = self.client.get('/revisar-publicaciones/')
+        self.assertEqual(response.status_code, 403)
+    
     # Agregar una nueva publicación
     def agrega_publicacion(self):
         Publicacion.objects.create(
             archivo='archivo_prueba.txt',
             estatus=Estatus.objects.create(
                 descripcion='en espera'),  # Estatus pendiente
-            autor=User.objects.create(
+            autor=Usuario.objects.create(
                 username='autor_prueba', password='contra123'),
             titulo="Prueba"
         )
+
+    # Agregar una nueva revisión
+    def agrega_revision(self):
+        Revision.objects.create(
+            publicacion = Publicacion.objects.create(
+                archivo='archivo_prueba.txt',
+                estatus=Estatus.objects.create(
+                    descripcion='en espera'),  # Estatus pendiente
+                autor=Usuario.objects.create(
+                    username='autor_prueba', 
+                    password='contra123', 
+                    correo_electronico='autor@gmail.com'),
+                titulo="Prueba"
+            ),
+            usuario_revisor = Usuario.objects.filter(id=self.user.id).first(),
+            archivo = 'archivo_prueba_2.txt',
+            estado = Estado.objects.create(
+                descripcion = "En espera"
+            )
+        )
+        
