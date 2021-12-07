@@ -28,13 +28,21 @@ class TestViews(TestCase):
     def crear_publicacion_revision(self):
 
         self.crear_publicacion()
-        estado_nuevo = Estado.objects.create(descripcion='En espera')
-        estado_nuevo.save()
+        self.crear_estados()
+        estado_nuevo = Estado.objects.get(descripcion='En espera')
         revision = Revision.objects.create(publicacion=Publicacion.objects.all().first(),
                                            usuario_revisor=Usuario.objects.all().first(),
                                            archivo='archivo_prueba.txt',
                                            estado=estado_nuevo)
         revision.save()
+
+    def crear_estados(self):
+        estado_espera = Estado.objects.create(descripcion='En espera')
+        estado_espera.save()
+        estado_aceptar = Estado.objects.create(descripcion='Aceptada')
+        estado_aceptar.save()
+        estado_rechazar = Estado.objects.create(descripcion='Rechazada')
+        estado_rechazar.save()
 
     def test_url_publicaciones_lista(self):
 
@@ -136,7 +144,7 @@ class TestViews(TestCase):
                                    str(publicacion.id))
         self.assertIn('revisores', response.context)
 
-    def test_url_cambiar_revisora(self):
+    def test_url_cambiar_revisor(self):
 
         self.crear_publicacion_revision()
         response = self.client.get('/gestion-publicaciones/cambiar-revisor/' +
@@ -177,3 +185,25 @@ class TestViews(TestCase):
         response = self.client.get(reverse('gestion_publicaciones:cambiar_revisor',
                                            args=[str(Revision.objects.all().first().id)]))
         self.assertIn('usuarios_disponibles', response.context)
+
+    def test_url_asignar_revisor(self):
+
+        self.crear_publicacion()
+        self.crear_estados()
+        id_usuario = str(Usuario.objects.all().first().id)
+        data_asignar_revisores = {'publicacion': Publicacion.objects.all().first().id,
+                                  id_usuario: 'Selected'}
+        response = self.client.post('/gestion-publicaciones/agregar-revisores/',
+                                    data=data_asignar_revisores)
+        self.assertEqual(response.status_code, 302)
+
+    def test_asignar_revisor_publicacion_no_existente(self):
+    
+        self.crear_publicacion()
+        self.crear_estados()
+        id_usuario = str(Usuario.objects.all().first().id)
+        data_asignar_revisores = {'publicacion': 100,
+                                  id_usuario: 'Selected'}
+        response = self.client.post('/gestion-publicaciones/agregar-revisores/',
+                                    data=data_asignar_revisores)
+        self.assertEqual(response.status_code, 404)

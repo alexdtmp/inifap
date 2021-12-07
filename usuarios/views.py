@@ -15,15 +15,13 @@ from .forms import UsuarioForm
 
 
 # Create your views here.
-class UsuarioList(PermissionRequiredMixin, ListView):
+class UsuarioList(ListView):
 
-    permission_required = 'usuarios.view_user'
     model = Usuario
 
 
-class UsuarioNuevo(PermissionRequiredMixin, CreateView):
+class UsuarioNuevo(CreateView):
 
-    permission_required = 'usuarios.add_user'
     model = Usuario
     form_class = UsuarioForm
     extra_context = {'lista_grupos': Group.objects.all(),
@@ -73,9 +71,8 @@ def login(request):
     return render(request, 'login.html', {'form': form})
 
 
-class UsuarioEliminar(PermissionRequiredMixin, DeleteView):
+class UsuarioEliminar(DeleteView):
 
-    permission_required = 'usuarios.delete_user'
     model = Usuario
     success_url = reverse_lazy('usuarios:lista')
 
@@ -85,7 +82,6 @@ class UsuarioEliminar(PermissionRequiredMixin, DeleteView):
         return super(UsuarioEliminar, self).delete(request, *args, **kwargs)
 
 
-@permission_required('usuarios.change_user', raise_exception=True)
 def usuario_modificar(request, pk):
 
     usuario = Usuario.objects.get(id=pk)
@@ -112,7 +108,6 @@ def usuario_modificar(request, pk):
     return render(request, 'usuarios/usuario_form.html', context)
 
 
-@permission_required('usuarios.view_user', raise_exception=True)
 def usuario_detalle(request, pk):
 
     usuario = get_object_or_404(Usuario, id=pk)

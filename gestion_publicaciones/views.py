@@ -75,7 +75,7 @@ def asignar_revisores(request):
                 revisor = Usuario.objects.get(id=int(item))
                 revision = Revision.objects.create(publicacion=publicacion_seleccionada,
                                                    usuario_revisor=revisor,
-                                                   estado=Estado.objects.get(id=1))
+                                                   estado=Estado.objects.get(descripcion='En espera'))
                 revision.save()
                 contador = contador + 1
                 enviar_correo(revision,
@@ -92,7 +92,7 @@ def enviar_correo(revision, usuario, publicacion, request):
     dominio = get_current_site(request)
     rid = urlsafe_base64_encode(force_bytes(revision.id))
     token = token_estado.make_token(revision)
-    if revision.estado == Estado.objects.get(id=1):
+    if revision.estado == Estado.objects.get(descripcion='En espera'):
 
         mensaje = render_to_string('solicitud_revision.html',
                                    {
@@ -101,7 +101,9 @@ def enviar_correo(revision, usuario, publicacion, request):
                                        'publicacion': publicacion,
                                        'rid': rid,
                                        'revision': revision,
-                                       'token': token
+                                       'token': token,
+                                       'aceptar': 'Aceptada',
+                                       'rechazar': 'Rechazada'
                                     })
         asunto = 'Solicitud de revisión'
 
@@ -140,14 +142,14 @@ class CambiarEstadoSolicitud(TemplateView):
             revision = None
         if revision and token_estado.check_token(revision, token):
 
-            if estado == '2':
+            if estado == 'Aceptada':
 
-                revision.estado = Estado.objects.get(id=2)
+                revision.estado = Estado.objects.get(descripcion='Aceptada')
                 messages.success(self.request,
                                  'Aceptaste la solicitud de revisión')
             else:
 
-                revision.estado = Estado.objects.get(id=3)
+                revision.estado = Estado.objects.get(descripcion='Rechazada')
                 messages.error(self.request,
                                'Rechazaste la solicitud de revisión')
             revision.save()
@@ -196,7 +198,7 @@ def cambiar_revisor(request, pk):
         revision = get_object_or_404(Revision, id=pk)
         usuario = Usuario.objects.get(id=int(request.POST['usuario']))
         revision.usuario_revisor = usuario
-        revision.estado = Estado.objects.get(id=1)
+        revision.estado = Estado.objects.get(descripcion='En espera')
         revision.save()
         enviar_correo(revision, usuario, revision.publicacion, request)
         return redirect('gestion_publicaciones:detalle_publicacion',

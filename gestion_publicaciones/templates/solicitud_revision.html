@@ -17,9 +17,8 @@
             debes indicarnos lo más pronto posible si deceas aceptar esta Solicitud o rechazarla.</p>
         </div>
         <div class="row">
-            <a href="http://{{dominio}}{% url 'gestion_publicaciones:cambiar_estado_solicitud' rid64=rid token=token estado=2 %}">Aceptar</a>
-            <p> o </p>
-            <a href="http://{{dominio}}{% url 'gestion_publicaciones:cambiar_estado_solicitud' rid64=rid token=token estado=3 %}">Rechazar</a>
+            <a href="http://{{dominio}}{% url 'gestion_publicaciones:cambiar_estado_solicitud' rid64=rid token=token estado=aceptar %}">Aceptar</a>
+            <a href="http://{{dominio}}{% url 'gestion_publicaciones:cambiar_estado_solicitud' rid64=rid token=token estado=rechazar %}">Rechazar</a>
         </div>
     </div>
 </body>

@@ -6,6 +6,7 @@ import time
 @given(u'que ingreso al sistema con la dirección "{url}"')
 def step_impl(context, url):
 
+    context.driver.maximize_window()
     url_login = context.url+'usuarios/login'
     context.driver.get(url_login)
     time.sleep(2)
@@ -13,7 +14,8 @@ def step_impl(context, url):
     time.sleep(2)
     context.driver.find_element_by_id("id_password").send_keys('admin123')
     time.sleep(2)
-    context.driver.find_elements_by_xpath("//*[contains(text(), 'Ingresar')]")[0].click()
+    context.driver.find_elements_by_xpath(
+        "//*[contains(text(), 'Ingresar')]")[0].click()
     time.sleep(2)
     context.driver.get(context.url+url)
     time.sleep(2)
@@ -46,7 +48,8 @@ def step_impl(context, apellido):
 def step_impl(context, apellido):
 
     context.driver.find_element_by_id("id_segundo_apellido").clear()
-    context.driver.find_element_by_id("id_segundo_apellido").send_keys(apellido)
+    context.driver.find_element_by_id(
+        "id_segundo_apellido").send_keys(apellido)
     time.sleep(2)
 
 
@@ -77,9 +80,11 @@ def step_impl(context, password):
 @when(u'presiono el botón "{boton}"')
 def step_impl(context, boton):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
-    context.driver.find_elements_by_xpath("//*[contains(text(), '"+boton+"')]")[0].click()
+    context.driver.find_elements_by_xpath(
+        "//*[contains(text(), '"+boton+"')]")[0].click()
     time.sleep(2)
 
 
@@ -100,7 +105,8 @@ def step_impl(context, mensaje):
 @then(u'sigo en la misma página con el título "{titulo}"')
 def step_impl(context, titulo):
 
-    respuesta = context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div[1]/div/div/h1')
+    respuesta = context.driver.find_element_by_xpath(
+        '/html/body/div/div[2]/main/div/div[1]/div/div/h1')
     assert titulo == respuesta.text, f"esperado es {titulo} y obtenido es {respuesta.text}"
     time.sleep(2)
 
@@ -138,21 +144,24 @@ def step_impl(context, alerta):
 @given(u'presiono el botón de eliminar correspondiente a un registro de la lista')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('//*[@id="datatablesSimple"]/tbody/tr[1]/td[7]/button').click()
+    context.driver.find_element_by_xpath(
+        '//*[@id="datatablesSimple"]/tbody/tr[1]/td[7]/button').click()
     time.sleep(2)
 
 
 @given(u'presiono el botón "Sí, estoy seguro"')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('/html/body/div[2]/div/div[6]/button[1]').click()
+    context.driver.find_element_by_xpath(
+        '/html/body/div[2]/div/div[6]/button[1]').click()
     time.sleep(2)
 
 
 @given(u'presiono el botón "Cancelar"')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('/html/body/div[2]/div/div[6]/button[3]').click()
+    context.driver.find_element_by_xpath(
+        '/html/body/div[2]/div/div[6]/button[3]').click()
     time.sleep(2)
 
 
@@ -160,7 +169,8 @@ def step_impl(context):
 @given(u'presiono el botón de modificar correspondiente a un registro de la lista')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[2]').click()
+    context.driver.find_element_by_xpath(
+        '/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[2]').click()
     time.sleep(2)
 
 
@@ -189,42 +199,51 @@ def step_impl(context):
 @when(u'presiono el botón de ver correspondiente a un registro de la lista')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[1]').click()
+    context.driver.find_element_by_xpath(
+        '/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[7]/a[1]').click()
     time.sleep(2)
 
 
 # Modificar permisos
-@when(u'selecciono el permiso Administrador')
+@given(u'selecciono el permiso Administrador')
 def step_impl(context):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[1]/div[2]/label/span")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div[2]/div/form/div[1]/div[2]/label/span")[0].click()
     time.sleep(2)
 
 
-@when(u'selecciono el permiso Gestor')
+@given(u'selecciono el permiso Gestor')
 def step_impl(context):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[2]/div[2]/label/span")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div[2]/div/form/div[2]/div[2]/label/span")[0].click()
     time.sleep(2)
 
 
-@when(u'selecciono el permiso Postulante')
+@given(u'selecciono el permiso Postulante')
 def step_impl(context):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[3]/div[2]/label/span")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div[2]/div/form/div[3]/div[2]/label/span")[0].click()
     time.sleep(2)
 
 
-@when(u'selecciono el permiso Revisor')
+@given(u'selecciono el permiso Revisor')
 def step_impl(context):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div[2]/div/form/div[4]/div[2]/label/span")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div[2]/div/form/div[4]/div[2]/label/span")[0].click()
     time.sleep(2)
