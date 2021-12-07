@@ -6,7 +6,7 @@ Característica: Iniciar Sesión
         Y capturo "admin" en el nombre de usuario
         Y capturo "admin123" en contraseña
         Cuando presiono el botón "Ingresar"
-        Entonces puedo ver la página de "Lista de usuarios"
+        Entonces puedo ver la página de "Bienvenido al Sistema de Gestión de Publicaciones Técnicas y Científicas del INIFAP"
     
     Escenario: Iniciar sesión incorrecto
         Dado que ingreso al sistema con la dirección "usuarios/login" 

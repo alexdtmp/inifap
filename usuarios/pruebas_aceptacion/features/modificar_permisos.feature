@@ -12,4 +12,4 @@ Característica: Modificar permisos usuario
         Y selecciono el permiso Postulante
         Y selecciono el permiso Revisor
         Cuando presiono el botón "Guardar"
-        Entonces puede ver al usuario "Modificado" en la lista de usuarios
+        Entonces puedo ver la página de "Lista de usuarios"

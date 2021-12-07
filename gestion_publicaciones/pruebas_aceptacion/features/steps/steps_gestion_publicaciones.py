@@ -23,7 +23,8 @@ def step_impl(context, url):
 @given(u'presiono el botón ver de la primera publicación de la lista')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[6]/a').click()
+    context.driver.find_element_by_xpath(
+        '/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[1]/td[6]/a').click()
     time.sleep(2)
 
 
@@ -56,31 +57,39 @@ def step_impl(context, boton):
 @given(u'selecciono los primeros 3 revisores de la lista')
 def step_impl(context):
 
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0].click()
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[3]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[3]/td[7]/div/input")[0].click()
     time.sleep(2)
 
 
 @when(u'selecciono los primeros 3 revisores de la lista')
 def step_impl(context):
 
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0].click()
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[3]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[3]/td[7]/div/input")[0].click()
     time.sleep(2)
 
 
 @when(u'selecciono los primeros 2 revisores de la lista')
 def step_impl(context):
 
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
     time.sleep(2)
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0].click()
     time.sleep(2)
 
 
@@ -101,7 +110,8 @@ def step_impl(context, titulo):
 @then(u'no puedo seleccionar el 4 revisor')
 def step_impl(context):
 
-    ele = context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[4]/td[7]/div/input")[0]
+    ele = context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[4]/td[7]/div/input")[0]
     time.sleep(2)
     ele.click()
     time.sleep(2)
@@ -120,21 +130,24 @@ def step_impl(context):
 @given(u'selecciono el primer revisor de la lista')
 def step_impl(context):
 
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
     time.sleep(2)
 
 
 @given(u'presiono el botón ver de la segunda publicación de la lista')
 def step_impl(context):
 
-    context.driver.find_element_by_xpath('/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[2]/td[6]/a').click()
+    context.driver.find_element_by_xpath(
+        '/html/body/div/div[2]/main/div/div/div/div/div[2]/table/tbody/tr[2]/td[6]/a').click()
     time.sleep(2)
 
 
 @then(u'no puedo seleccionar el segundo revisor')
 def step_impl(context):
 
-    ele = context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0]
+    ele = context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[2]/td[7]/div/input")[0]
     time.sleep(2)
     ele.click()
     time.sleep(2)
@@ -144,7 +157,8 @@ def step_impl(context):
 @when(u'selecciono el primer revisor de la lista')
 def step_impl(context):
 
-    context.driver.find_elements_by_xpath("/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
+    context.driver.find_elements_by_xpath(
+        "/html/body/div/div[2]/main/div/div/div/form/table/tbody/tr[1]/td[7]/div/input")[0].click()
     time.sleep(2)
 
 
