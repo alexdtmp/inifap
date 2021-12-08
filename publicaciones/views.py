@@ -1,17 +1,23 @@
+from django.http import response
 from django.shortcuts import render
 from django.template import RequestContext
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
+from gestion_publicaciones.forms import RevisionForm
 from publicaciones.forms import PublicacionForm
 from publicaciones.models import Publicacion
-from gestion_publicaciones.models import Revision
+from gestion_publicaciones.models import Estado, Revision
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 from usuarios.models import Usuario
+from django.http import FileResponse, HttpResponse
+from django.core.files import File
 
 
 # Lista de publicaciones
@@ -19,6 +25,10 @@ class MisPublicacionesList(PermissionRequiredMixin, ListView):
     permission_required = 'publicaciones.add_publicacion'
     template_name = "mis_publicaciones_list.html"
     model = Publicacion
+    
+    def get_queryset(self):
+        usuario_actual = self.request.user
+        return Publicacion.objects.filter(autor = usuario_actual.id)
 
 # Página de inicio
 
@@ -36,10 +46,33 @@ class RevisionesList(PermissionRequiredMixin, ListView):
 class InicioView(TemplateView):
     template_name = "inicio.html"
 
-class RevisionDetail(PermissionRequiredMixin, DetailView):
+class RevisionUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = 'gestion_publicaciones.change_revision'
-    template_name = 'publicacion_revisar_detail.html'
+    template_name = 'publicacion_revisar_update.html'
     model = Revision
+    form_class = RevisionForm
+    
+    def post(self, request, *args, **kwargs):
+        form = RevisionForm(request.POST, request.FILES)
+        if form.is_valid():
+            revision_id = self.kwargs['pk']
+            revision_actual = Revision.objects.get(id=revision_id)
+            revision_actual.estado = Estado.objects.get(id=request.POST['estado'])
+            # Si hay algún archivo seleccionado
+            if(len(request.FILES) != 0):
+                revision_actual.archivo = request.FILES['archivo']
+            revision_actual.save()
+            # nueva_publicacion = Publicacion(archivo=request.FILES['archivo'])
+            # nueva_publicacion.titulo = request.POST['titulo']
+            # nueva_publicacion.autor = Usuario.objects.filter(
+            #     id=request.user.id).first()
+            # nueva_publicacion.save()
+            messages.success(
+                request, 'Tu revisión se ha guardado con éxito')
+            return redirect('/revisar-publicaciones/')
+        else:
+            print("----------- Falló")
+            return redirect('/revisar-publicaciones/')
     
     
 # Nueva publicación
@@ -69,4 +102,23 @@ def handler403(request, *args, **argv):
     response = render('403.html', {},
                       context_instance=RequestContext(request))
     response.status_code = 403
+    return response
+
+def descargar_publicacion(request, id):
+    publicacion = Publicacion.objects.get(id=id)
+    filename = publicacion.archivo.path 
+    # response = FileResponse(open(filename, 'rb'))
+    
+    # Para descarga directa
+    archivo = open(filename, 'rb')
+    myfile = File(archivo)
+    response = HttpResponse(myfile, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=' + publicacion.archivo.name
+    return response
+
+
+def visualizar_publicacion(request, id):
+    publicacion = Publicacion.objects.get(id=id)
+    filename = publicacion.archivo.path
+    response = FileResponse(open(filename, 'rb'))
     return response

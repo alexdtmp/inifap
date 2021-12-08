@@ -54,6 +54,32 @@ Mis Publicaciones
 
 
 {% block contenido %}
+<div class="card mb-4">
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Fecha de publicación</th>
+                    <th>Estatus</th>
+                    <th>Autor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publicacion in object_list  %}
+                <tr>
+                    <td>{{publicacion.id}}</td>
+                    <td>{{publicacion.titulo}}</td>
+                    <td>{{publicacion.fecha_publicacion}}</td>
+                    <td>{{publicacion.estatus}}</td>
+                    <td>{{publicacion.autor}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock contenido %}
     
     
