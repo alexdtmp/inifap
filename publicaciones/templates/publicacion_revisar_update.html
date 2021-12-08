@@ -8,17 +8,46 @@ Detalles de la revisión
 
 
 {% block encabezado %}
-<div class="row align-items-center justify-content-between" id="id_encabezado">
-    <div class="col-md-8" id="titulo_mis_publicaciones">
-        Detalles de la revisión
-    </div>
-    <div class="col-md-2">
-        <a class="btn btn-primary" href="{% url 'publicaciones:descargar_publicacion' revision.publicacion.id %}">Descargar publicación</a>            
-    </div>
-    <div class="col-md-2">
-        <a class="btn btn-secondary" href="{% url 'publicaciones:visualizar_publicacion' revision.publicacion.id %}" target="_new">Visualizar publicación</a>                       
-    </div>
+<div class="container">
+    {% block mensajes %}    
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'success'
+                            })
+                        </script>
+                    {% elif message.tags == 'error' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'error'
+                            })
+                        </script>
+                    {% elif message.tags == 'info' %}
+                        <script>
+                            Swal.fire({
+                                title:'{{message}}',
+                                icon:'info'
+                            })
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endblock mensajes %}
+        <div class="row align-items-center justify-content-between" id="id_encabezado">
+            <div class="col-md-8" id="titulo_mis_publicaciones">
+                Detalles de la revisión
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-primary" href="{% url 'publicaciones:descargar_publicacion' revision.publicacion.id %}" id="id_descargar">Descargar publicación</a>            
+            </div>
+        </div>
 </div>
+
+
 {% endblock encabezado %}
 
 {% block contenido %}

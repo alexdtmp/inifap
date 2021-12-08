@@ -106,11 +106,13 @@ def descargar_publicacion(request, id):
     # Para descarga directa
     archivo = open(filename, 'rb')
     myfile = File(archivo)
-    response = HttpResponse(myfile, content_type='application/vnd.ms-excel')
+    response = HttpResponse(myfile, content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename=' + publicacion.archivo.name
     return response
 
 
+# por el momento no se implementará, se mantendrá en caso de que el stakeholder quiera
+# manejar PDF's posteriormente.
 def visualizar_publicacion(request, id):
     publicacion = Publicacion.objects.get(id=id)
     filename = publicacion.archivo.path

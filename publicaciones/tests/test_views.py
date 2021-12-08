@@ -4,7 +4,7 @@ from gestion_publicaciones.models import Estado, Revision
 from publicaciones.models import Publicacion
 from catalogos.models import Estatus
 from django.contrib.auth.models import Permission
-from django.contrib.auth.models import User
+from django.urls import reverse
 
 from usuarios.models import Usuario
 
@@ -262,6 +262,78 @@ class TestViews(TestCase):
         self.client.login(username='user', password='pass')
         response = self.client.get('/revisar-publicaciones/')
         self.assertEqual(response.status_code, 403)
+
+    # =============== REVISION UPDATE ===============
+    
+    def test_url_actualizar_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_template_actualizar_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertTemplateUsed(response, 'publicacion_revisar_update.html')
+    
+    def test_envio_datos_actualizar_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertIn('object', response.context)
+    
+    def test_cargar_publicacion_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()        
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertEquals('Prueba', response.context['object'].publicacion.titulo)
+        
+    def test_cargar_usuario_revisor_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertEquals(self.user.id, response.context['object'].usuario_revisor.id)
+ 
+    
+    def test_cargar_archivo_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertEquals('archivo_prueba_2.txt', response.context['object'].archivo)
+    
+    def test_cargar_estado_revision(self):
+        self.client.login(username='user', password='pass')
+        id_permiso = Permission.objects.filter(
+            codename='change_revision').first()
+        self.user.user_permissions.add(id_permiso)
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertEquals('En espera', response.context['object'].estado.descripcion)    
+    
+    def test_actualizar_revision_403(self):
+        self.client.login(username='user', password='pass')
+        self.agrega_revision()
+        response = self.client.get('/revisar-publicaciones/detalle/' + str(Revision.objects.last().id) + '/')
+        self.assertEqual(response.status_code, 403)
     
     # Agregar una nueva publicación
     def agrega_publicacion(self):
@@ -293,3 +365,6 @@ class TestViews(TestCase):
             )
         )
         
+    
+        
+    

@@ -22,3 +22,7 @@ ContentType.objects.all().delete()
 Sales del shell y ejecutas el siguiente comando
 
 python manage.py loaddata db.json
+
+Otorgar el siguiente permiso desde mysql antes de ejecutar las pruebas unitarias:
+
+GRANT ALL PRIVILEGES ON test_inifap_gestion_articulos.* TO 'inifapadmin'@'%';
