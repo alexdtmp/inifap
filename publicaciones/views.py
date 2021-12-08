@@ -62,11 +62,6 @@ class RevisionUpdate(PermissionRequiredMixin, UpdateView):
             if(len(request.FILES) != 0):
                 revision_actual.archivo = request.FILES['archivo']
             revision_actual.save()
-            # nueva_publicacion = Publicacion(archivo=request.FILES['archivo'])
-            # nueva_publicacion.titulo = request.POST['titulo']
-            # nueva_publicacion.autor = Usuario.objects.filter(
-            #     id=request.user.id).first()
-            # nueva_publicacion.save()
             messages.success(
                 request, 'Tu revisión se ha guardado con éxito')
             return redirect('/revisar-publicaciones/')
@@ -107,7 +102,6 @@ def handler403(request, *args, **argv):
 def descargar_publicacion(request, id):
     publicacion = Publicacion.objects.get(id=id)
     filename = publicacion.archivo.path 
-    # response = FileResponse(open(filename, 'rb'))
     
     # Para descarga directa
     archivo = open(filename, 'rb')

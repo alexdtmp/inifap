@@ -138,7 +138,7 @@ class TestViews(TestCase):
         self.agrega_publicacion()
         response = self.client.get('/mis-publicaciones/')
         self.assertEquals(
-            'autor_prueba', response.context['object_list'][0].autor.username)
+            'user', response.context['object_list'][0].autor.username)
 
     # Probar acceso restringido a la creación de 
     # publicaciones para usuarios que no tienen el permiso
@@ -269,8 +269,7 @@ class TestViews(TestCase):
             archivo='archivo_prueba.txt',
             estatus=Estatus.objects.create(
                 descripcion='en espera'),  # Estatus pendiente
-            autor=Usuario.objects.create(
-                username='autor_prueba', password='contra123'),
+            autor=Usuario.objects.filter(id=self.user.id).first(),
             titulo="Prueba"
         )
 
