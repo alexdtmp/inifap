@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='revision',
             name='publicacion',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publicaciones.publicacion', verbose_name='Publicación'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    to='publicaciones.publicacion', verbose_name='Publicación'),
         ),
     ]

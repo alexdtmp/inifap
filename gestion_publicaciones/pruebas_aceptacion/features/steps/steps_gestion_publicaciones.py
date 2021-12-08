@@ -14,7 +14,8 @@ def step_impl(context, url):
     time.sleep(2)
     context.driver.find_element_by_id("id_password").send_keys('admin123')
     time.sleep(2)
-    context.driver.find_elements_by_xpath("//*[contains(text(), 'Ingresar')]")[0].click()
+    context.driver.find_elements_by_xpath(
+        "//*[contains(text(), 'Ingresar')]")[0].click()
     time.sleep(2)
     context.driver.get(context.url+url)
     time.sleep(2)
@@ -39,18 +40,22 @@ def step_impl(context):
 @given(u'presiono el botón "{boton}"')
 def step_impl(context, boton):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(4)
-    context.driver.find_elements_by_xpath("//*[contains(text(), '"+boton+"')]")[0].click()
+    context.driver.find_elements_by_xpath(
+        "//*[contains(text(), '"+boton+"')]")[0].click()
     time.sleep(2)
 
 
 @when(u'presiono el botón "{boton}"')
 def step_impl(context, boton):
 
-    context.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.driver.execute_script(
+        "window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(4)
-    context.driver.find_elements_by_xpath("//*[contains(text(), '"+boton+"')]")[0].click()
+    context.driver.find_elements_by_xpath(
+        "//*[contains(text(), '"+boton+"')]")[0].click()
     time.sleep(2)
 
 

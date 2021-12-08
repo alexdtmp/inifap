@@ -14,8 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Estatus',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('descripcion', models.CharField(max_length=100, verbose_name='Estatus de la publicación')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('descripcion', models.CharField(max_length=100,
+                 verbose_name='Estatus de la publicación')),
             ],
         ),
     ]

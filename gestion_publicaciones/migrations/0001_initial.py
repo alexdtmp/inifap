@@ -15,16 +15,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Estado',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('descripcion', models.CharField(max_length=100, verbose_name='Estado de la solicitud')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('descripcion', models.CharField(
+                    max_length=100, verbose_name='Estado de la solicitud')),
             ],
         ),
         migrations.CreateModel(
             name='Revision',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('archivo', models.FileField(blank=True, null=True, upload_to='revisiones/')),
-                ('estado', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gestion_publicaciones.estado', verbose_name='Estado')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('archivo', models.FileField(blank=True,
+                 null=True, upload_to='revisiones/')),
+                ('estado', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 to='gestion_publicaciones.estado', verbose_name='Estado')),
             ],
         ),
     ]

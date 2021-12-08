@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 
 # Create your models here.
@@ -11,6 +10,6 @@ class Publicacion(models.Model):
         'Fecha de Publicacion', auto_now_add=True)
     estatus = models.ForeignKey("catalogos.Estatus", verbose_name=(
         "Estatus"), on_delete=models.CASCADE, default=1)
-    autor = models.ForeignKey("usuarios.Usuario", 
+    autor = models.ForeignKey("usuarios.Usuario",
                               verbose_name=("Usuario Postulante"),
                               on_delete=models.CASCADE)

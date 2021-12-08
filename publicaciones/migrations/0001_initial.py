@@ -14,10 +14,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Publicacion',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('archivo', models.FileField(upload_to='publicaciones/')),
-                ('titulo', models.CharField(max_length=100, verbose_name='Título de la publicación')),
-                ('fecha_publicacion', models.DateField(auto_now_add=True, verbose_name='Fecha de Publicacion')),
+                ('titulo', models.CharField(max_length=100,
+                 verbose_name='Título de la publicación')),
+                ('fecha_publicacion', models.DateField(
+                    auto_now_add=True, verbose_name='Fecha de Publicacion')),
             ],
         ),
     ]

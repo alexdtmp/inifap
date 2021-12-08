@@ -11,11 +11,13 @@ def step_impl(context):
 def step_impl(context, url):
     context.driver.get(f"{context.url}")
     time.sleep(1)
-    
+
+
 @when(u'me dirijo a la pantalla de inicio del sistema en la dirección "{url}"')
 def step_impl(context, url):
     context.driver.get(f"{context.url}")
     time.sleep(1)
+
 
 @given(u'hago clic en la pestaña "Mis publicaciones"')
 def step_impl(context):
@@ -64,7 +66,7 @@ def step_impl(context, mensaje_exito):
 
 @given(u'que no me encuentro logueado en el sistema como usuario postulante')
 def step_impl(context):
-    #context.driver.get(f"{context.url}{'admin/logout'}")
+    # context.driver.get(f"{context.url}{'admin/logout'}")
     login_no_postulante(context)
     time.sleep(1)
 

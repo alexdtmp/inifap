@@ -14,6 +14,7 @@ def step_impl(context):
     context.driver.get(f"{context.url}")
     time.sleep(1)
 
+
 @given(u'doy clic en la pestaña "Mis revisiones"')
 def step_impl(context):
     context.driver.find_element_by_id('id_mis_revisiones').click()
@@ -35,15 +36,15 @@ def step_impl(context):
 @then(u'puedo encontrar el archivo en la carpeta de descargas')
 def step_impl(context):
     time.sleep(4)
-    assert str(os.path.exists('C:/Users/alejv/Downloads/publicaciones_UseCaseTesting_Sy30bt2.pdf')) in "True"
+    assert str(os.path.exists(
+        'C:/Users/alejv/Downloads/publicaciones_UseCaseTesting_Sy30bt2.pdf')) in "True"
 
-    
-    
+
 @given(u'que NO me encuentro logueado en el sistema como usuario revisor')
 def step_impl(context):
     login_autor(context)
     time.sleep(1)
-       
+
 
 def login(context):
     context.driver.get(f"{context.url}{'usuarios/login'}")
@@ -51,7 +52,8 @@ def login(context):
     context.driver.find_element_by_id('id_password').send_keys('temporal2019')
     context.driver.find_element_by_xpath(
         '//*[@id="layoutAuthentication_content"]/main/div/div/div/div/div[2]/form/div[3]/button').click()
-    
+
+
 def login_autor(context):
     context.driver.get(f"{context.url}{'usuarios/login'}")
     context.driver.find_element_by_id('id_username').send_keys('autor')

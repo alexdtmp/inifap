@@ -104,7 +104,7 @@ def enviar_correo(revision, usuario, publicacion, request):
                                        'token': token,
                                        'aceptar': 'Aceptada',
                                        'rechazar': 'Rechazada'
-                                    })
+                                   })
         asunto = 'Solicitud de revisión'
 
     else:
@@ -114,15 +114,15 @@ def enviar_correo(revision, usuario, publicacion, request):
                                        'usuario': usuario,
                                        'dominio': dominio,
                                        'publicacion': publicacion
-                                       })
+                                   })
         asunto = 'Recordatorio de revisión'
 
     to = usuario.correo_electronico
     email = EmailMessage(
-            asunto,
-            mensaje,
-            to=[to]
-            )
+        asunto,
+        mensaje,
+        to=[to]
+    )
     email.content_subtype = 'html'
     email.send()
 

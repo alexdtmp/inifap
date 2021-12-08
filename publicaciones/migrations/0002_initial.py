@@ -18,11 +18,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='publicacion',
             name='autor',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='usuarios.usuario', verbose_name='Usuario Postulante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    to='usuarios.usuario', verbose_name='Usuario Postulante'),
         ),
         migrations.AddField(
             model_name='publicacion',
             name='estatus',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='catalogos.estatus', verbose_name='Estatus'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE,
+                                    to='catalogos.estatus', verbose_name='Estatus'),
         ),
     ]

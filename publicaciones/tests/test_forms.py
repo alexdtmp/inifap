@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 class TestFormPublicacion(TestCase):
 
-    # Probar que la form del modelo Publicación se 
+    # Probar que la form del modelo Publicación se
     # marca como inválida si falta una ruta de archivo
     def test_archivo_vacio_form(self):
         form = PublicacionForm(
@@ -16,7 +16,7 @@ class TestFormPublicacion(TestCase):
         )
         self.assertFalse(form.is_valid())
 
-    # Probar que la form del modelo Publicación se 
+    # Probar que la form del modelo Publicación se
     # marca como inválida si falta un título de archivo
     def test_titulo_vacio_form(self):
         loaded_file = BytesIO(b"texto de prueba")
